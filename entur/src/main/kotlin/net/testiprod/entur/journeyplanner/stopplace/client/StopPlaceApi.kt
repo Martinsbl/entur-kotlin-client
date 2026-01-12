@@ -57,13 +57,13 @@ class StopPlaceApi(private val apolloClient: ApolloClient) : IStopPlaceApi {
     }
 
     override suspend fun fetchQuay(
-        quayId: String,
+        stopId: String,
         numberOfDepartures: Int,
         directionType: DirectionType?,
         whiteListedLines: List<String>?,
     ): EnturResult<StopPlaceQuay> {
         val query = QuayQuery(
-            quayId,
+            stopId,
             Optional.presentIfNotNull(numberOfDepartures),
             Optional.presentIfNotNull(whiteListedLines),
         )
@@ -71,7 +71,7 @@ class StopPlaceApi(private val apolloClient: ApolloClient) : IStopPlaceApi {
 
         response.errors?.let {
             throw EnturResponseException(
-                "Error fetching data for quay '$quayId'. Errors=${it.joinToString()}",
+                "Error fetching data for quay '$stopId'. Errors=${it.joinToString()}",
                 null,
             )
         }

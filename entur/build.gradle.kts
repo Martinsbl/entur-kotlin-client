@@ -1,12 +1,13 @@
 plugins {
-    kotlin("jvm")
+    kotlin("multiplatform")
     kotlin("plugin.serialization") version "2.3.0"
     id("com.apollographql.apollo").version("4.3.3")
     `java-library`
+    `maven-publish`
 }
 
-group = "net.testiprod"
-version = "1.0-SNAPSHOT"
+group = "net.testiprod.entur"
+version = "0.0.1-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -31,6 +32,14 @@ dependencies {
     testImplementation(kotlin("test"))
 }
 
+tasks.test {
+    useJUnitPlatform()
+}
+
+kotlin {
+    jvmToolchain(17)
+}
+
 /**
  * To generate/update schemas, use command:
  * .\gradlew entur:downloadApolloSchema --endpoint="https://api.entur.io/journey-planner/v3/graphql" --schema="entur/src/main/graphql/journeyplanner/schema.json"
@@ -51,10 +60,26 @@ apollo {
     }
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
+            groupId = project.group.toString()
+            artifactId = "client"
+            version = project.version.toString()
+        }
+    }
 
-kotlin {
-    jvmToolchain(17)
+    repositories {
+        mavenLocal()
+
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/martinsbl/entur-kotlin-client")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR") ?: findProperty("github.actor") as String?
+                password = System.getenv("GITHUB_TOKEN") ?: findProperty("github.token") as String?
+            }
+        }
+    }
 }
