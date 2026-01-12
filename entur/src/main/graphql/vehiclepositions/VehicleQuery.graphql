@@ -1,0 +1,53 @@
+subscription VehiclesSubscription($codespaceId: String, $lineRef: String) {
+  vehicles(codespaceId: $codespaceId, lineRef: $lineRef) {
+    line {
+      lineRef
+      publicCode
+      lineName
+    }
+    lastUpdated
+    location {
+      latitude
+      longitude
+    }
+    delay
+    destinationName
+    bearing
+    expirationEpochSecond
+    inCongestion
+    lastUpdatedEpochSecond
+    mode
+    occupancyStatus
+    speed
+    serviceJourney {
+      id
+    }
+  }
+}
+
+query VehiclesQuery($codespaceId: String, $lineRef: String) {
+  vehicles(codespaceId: $codespaceId, lineRef: $lineRef) {
+    line {
+      lineRef
+      publicCode
+      lineName
+    }
+    lastUpdated
+    location {
+      latitude
+      longitude
+    }
+    delay
+    destinationName
+    bearing
+    expirationEpochSecond
+    inCongestion
+    lastUpdatedEpochSecond
+    mode
+    occupancyStatus
+    speed
+    serviceJourney {
+      id
+    }
+  }
+}

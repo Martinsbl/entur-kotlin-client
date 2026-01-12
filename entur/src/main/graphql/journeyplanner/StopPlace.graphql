@@ -1,0 +1,85 @@
+query Quay($id: String!, $numberOfDepartures: Int, $lines: [ID]) {
+    quay(
+        id: $id
+    ) {
+        id
+        name
+        estimatedCalls(
+            includeCancelledTrips: false,
+            numberOfDepartures: $numberOfDepartures,
+            whiteListed: {lines: $lines}
+        ) {
+            ...estimatedCallFragment
+        }
+    }
+}
+
+query StopPlace($id: String!, $numberOfDepartures: Int, $lines: [ID]) {
+    stopPlace(
+        id: $id
+    ) {
+        id
+        name
+        estimatedCalls(
+            includeCancelledTrips: false,
+            numberOfDepartures: $numberOfDepartures,
+            whiteListed: {lines: $lines}
+        ) {
+            ...estimatedCallFragment
+        }
+    }
+}
+
+fragment estimatedCallFragment on EstimatedCall {
+    destinationDisplay {
+        frontText
+    }
+    expectedDepartureTime
+    aimedDepartureTime
+    occupancyStatus
+    serviceJourney {
+        id
+        directionType
+        line {
+            id
+            name
+            publicCode
+            presentation {
+                colour
+                textColour
+            }
+            situations {
+                ...situationsFragment
+            }
+            transportMode
+        }
+        situations {
+            ...situationsFragment
+        }
+    }
+    situations {
+        ...situationsFragment
+    }
+    realtime
+}
+
+fragment situationsFragment on PtSituationElement {
+    id
+    summary {
+        value
+        language
+    }
+    description {
+        value
+        language
+    }
+    advice {
+        value
+        language
+    }
+    reportType
+    validityPeriod {
+        endTime
+        startTime
+    }
+}

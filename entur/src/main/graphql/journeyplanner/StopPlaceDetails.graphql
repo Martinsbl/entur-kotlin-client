@@ -1,0 +1,29 @@
+query StopPlaceDetails($stopPlaceId: String!) {
+    stopPlace(id: $stopPlaceId) {
+        name
+        id
+        quays {
+            id
+            name
+            lines {
+                ...lines
+            }
+            publicCode
+            description
+            journeyPatterns {
+                directionType
+            }
+        }
+    }
+}
+
+fragment lines on Line {
+    id
+    name
+    presentation {
+        colour
+        textColour
+    }
+    transportMode
+    publicCode
+}

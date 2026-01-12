@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm")
+    id("com.apollographql.apollo").version("4.3.3")
     `java-library`
 }
 
@@ -11,12 +12,47 @@ repositories {
 }
 
 dependencies {
+    implementation("com.apollographql.ktor:apollo-engine-ktor:0.1.1")
+    implementation("com.apollographql.apollo:apollo-runtime:4.3.3")
+
+    val ktorVersion = "3.3.3"
+    implementation("io.ktor:ktor-client-android:$ktorVersion")
+    implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
+    implementation("io.ktor:ktor-client-core:$ktorVersion")
+    implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
+    implementation("io.ktor:ktor-client-serialization:$ktorVersion")
+    implementation("io.ktor:ktor-serialization-gson:$ktorVersion")
+
+    implementation("joda-time:joda-time:2.10.14") // For java data replacement and desktop compatibility
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+
     testImplementation(kotlin("test"))
+}
+
+/**
+ * To generate/update schemas, use command:
+ * .\gradlew entur:downloadApolloSchema --endpoint="https://api.entur.io/journey-planner/v3/graphql" --schema="entur/src/main/graphql/journeyplanner/schema.json"
+ * .\gradlew entur:downloadApolloSchema --endpoint="https://api.entur.io/realtime/v1/vehicles/graphql" --schema="entur/src/main/graphql/vehiclepositions/schema.json"
+ *
+ */
+apollo {
+    service("journeyplanner") {
+        packageName.set("net.testiprod.entur.apollographql.journeyplanner.")
+        srcDir("src/main/graphql/journeyplanner")
+        generateAsInternal.set(true)
+    }
+
+    service("vehiclepositions") {
+        packageName.set("net.testiprod.entur.apollographql.vehiclepositions.")
+        srcDir("src/main/graphql/vehiclepositions")
+        generateAsInternal.set(true)
+    }
 }
 
 tasks.test {
     useJUnitPlatform()
 }
+
 kotlin {
     jvmToolchain(17)
 }
