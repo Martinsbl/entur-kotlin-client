@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "2.2.20"
+    kotlin("jvm")
 }
 
 group = "net.testiprod"
@@ -10,7 +10,6 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":entur"))
     testImplementation(kotlin("test"))
 }
 
