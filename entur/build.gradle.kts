@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm")
+    kotlin("plugin.serialization") version "2.3.0"
     id("com.apollographql.apollo").version("4.3.3")
     `java-library`
 }
@@ -14,14 +15,15 @@ repositories {
 dependencies {
     implementation("com.apollographql.ktor:apollo-engine-ktor:0.1.1")
     implementation("com.apollographql.apollo:apollo-runtime:4.3.3")
+    implementation("io.ktor:ktor-client-cio-jvm:3.3.3")
 
     val ktorVersion = "3.3.3"
     implementation("io.ktor:ktor-client-android:$ktorVersion")
     implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
     implementation("io.ktor:ktor-client-core:$ktorVersion")
-    implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
+    implementation("io.ktor:ktor-client-cio:$ktorVersion")
     implementation("io.ktor:ktor-client-serialization:$ktorVersion")
-    implementation("io.ktor:ktor-serialization-gson:$ktorVersion")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
 
     implementation("joda-time:joda-time:2.10.14") // For java data replacement and desktop compatibility
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")

@@ -1,15 +1,18 @@
 package net.testiprod
 
-import net.testiprod.net.testiprod.entur.TestClass
+import kotlinx.coroutines.runBlocking
+import net.testiprod.entur.common.OSLO_S
+import net.testiprod.entur.journeyplanner.stopplace.client.StopPlaceApi
 
 fun main() {
-    val name = "Kotlin"
-    val testClass = TestClass()
-    println(testClass.print())
+    val stopPlaceApi = StopPlaceApi(
+        "github.com/martinsbl",
+        "kotlin-entur-client",
+    )
 
-    for (i in 1..5) {
-        // TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-        // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-        println("i = $i")
+    // Create a coroutine scope to call suspend functions
+    runBlocking {
+        val stopPlaces = stopPlaceApi.fetchStopPlace(OSLO_S)
+        println("Stop places at Oslo S:\n$stopPlaces")
     }
 }
