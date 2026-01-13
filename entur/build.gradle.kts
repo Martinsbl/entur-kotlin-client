@@ -3,6 +3,7 @@ plugins {
     kotlin("plugin.serialization")
     id("com.apollographql.apollo")
     id("com.android.library")
+    id("org.jlleitschuh.gradle.ktlint")
     `maven-publish`
 }
 

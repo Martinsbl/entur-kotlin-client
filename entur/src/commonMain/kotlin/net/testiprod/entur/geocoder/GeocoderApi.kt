@@ -18,15 +18,14 @@ class GeocoderApi(private val httpClient: HttpClient) {
         lon: Double,
         radius: Int = 20,
     ): EnturResult<String> = doHttpRequest<String> {
-        httpClient.get("/geocoder/v1/reverse")
-            {
-                url {
-                    parameters.append("point.lat", lat.toString())
-                    parameters.append("point.lon", lon.toString())
-                    parameters.append("boundary.circle.radius", radius.toString())
-                    parameters.append("layers", "venue")
-                }
+        httpClient.get("/geocoder/v1/reverse") {
+            url {
+                parameters.append("point.lat", lat.toString())
+                parameters.append("point.lon", lon.toString())
+                parameters.append("boundary.circle.radius", radius.toString())
+                parameters.append("layers", "venue")
             }
+        }
     }
 
     suspend fun fetchStopPlaces(
@@ -34,15 +33,14 @@ class GeocoderApi(private val httpClient: HttpClient) {
         size: Int = 20,
         multiModal: MultiModal = MultiModal.CHILD,
     ): EnturResult<List<Feature>> = doHttpRequest<FeatureResult> {
-        httpClient.get("/geocoder/v1/autocomplete")
-            {
-                url {
-                    parameters.append("text", text)
-                    parameters.append("size", size.toString())
-                    parameters.append("lang", "no")
-                    parameters.append("multiModal", multiModal.value)
-                }
+        httpClient.get("/geocoder/v1/autocomplete") {
+            url {
+                parameters.append("text", text)
+                parameters.append("size", size.toString())
+                parameters.append("lang", "no")
+                parameters.append("multiModal", multiModal.value)
             }
+        }
     }.transformResult {
         it.features.filterStopPlaces()
     }
