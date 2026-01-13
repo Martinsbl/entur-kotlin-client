@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import net.testiprod.entur.http.EnturResult
 import net.testiprod.entur.journeyplanner.stopplace.client.IStopPlaceApi
+import net.testiprod.entur.journeyplanner.stopplace.filtering.EstimatedCallFilter
 import net.testiprod.entur.journeyplanner.stopplace.models.StopPlaceQuay
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
@@ -15,6 +16,7 @@ class StopPlaceService(private val stopPlaceApi: IStopPlaceApi) {
         numberOfDepartures: Int = 10,
         whiteListedLines: List<String>? = null,
         refreshInterval: Duration = 30.seconds,
+        filters: List<EstimatedCallFilter>? = null,
     ): Flow<EnturResult<StopPlaceQuay>> {
         checkConfiguration(refreshInterval)
         return flow {
@@ -24,6 +26,7 @@ class StopPlaceService(private val stopPlaceApi: IStopPlaceApi) {
                         stopPlaceId,
                         numberOfDepartures,
                         whiteListedLines,
+                        filters,
                     )
                 } catch (e: Exception) {
                     EnturResult.Error(e)

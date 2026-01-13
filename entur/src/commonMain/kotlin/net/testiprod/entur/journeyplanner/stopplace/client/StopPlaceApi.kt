@@ -9,6 +9,8 @@ import net.testiprod.entur.common.JOURNEY_PLANNER_BASE_URL
 import net.testiprod.entur.common.exceptions.EnturResponseException
 import net.testiprod.entur.http.EnturApolloClientFactory
 import net.testiprod.entur.http.EnturResult
+import net.testiprod.entur.journeyplanner.stopplace.filtering.EstimatedCallFilter
+import net.testiprod.entur.journeyplanner.stopplace.filtering.EstimatedCallFilter.Companion.applyFilters
 import net.testiprod.entur.journeyplanner.stopplace.models.StopPlaceDetails
 import net.testiprod.entur.journeyplanner.stopplace.models.StopPlaceQuay
 import net.testiprod.entur.journeyplanner.stopplace.toDomain
@@ -26,6 +28,7 @@ class StopPlaceApi(private val apolloClient: ApolloClient) : IStopPlaceApi {
         stopPlaceId: String,
         numberOfDepartures: Int,
         whiteListedLines: List<String>?,
+        filters: List<EstimatedCallFilter>?,
     ): EnturResult<StopPlaceQuay> {
         val query = StopPlaceQuery(
             stopPlaceId,
@@ -46,7 +49,7 @@ class StopPlaceApi(private val apolloClient: ApolloClient) : IStopPlaceApi {
                 StopPlaceQuay(
                     stopPlace.id,
                     stopPlace.name,
-                    stopPlace.estimatedCalls,
+                    stopPlace.estimatedCalls.applyFilters(filters),
                 )
             return EnturResult.Success(filteredStopPlace)
         }
@@ -57,6 +60,7 @@ class StopPlaceApi(private val apolloClient: ApolloClient) : IStopPlaceApi {
         quayId: String,
         numberOfDepartures: Int,
         whiteListedLines: List<String>?,
+        filters: List<EstimatedCallFilter>?,
     ): EnturResult<StopPlaceQuay> {
         val query = QuayQuery(
             quayId,
@@ -76,7 +80,7 @@ class StopPlaceApi(private val apolloClient: ApolloClient) : IStopPlaceApi {
             val filteredStopPlace = StopPlaceQuay(
                 quay.id,
                 quay.name,
-                quay.estimatedCalls,
+                quay.estimatedCalls.applyFilters(filters),
             )
             return EnturResult.Success(filteredStopPlace)
         }
