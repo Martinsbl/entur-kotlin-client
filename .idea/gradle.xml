@@ -9,6 +9,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/entur" />
+            <option value="$PROJECT_DIR$/test-app" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -1,25 +1,6 @@
 plugins {
-    kotlin("jvm") version "2.2.20"
-}
-
-group = "net.testiprod"
-version = "1.0-SNAPSHOT"
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    implementation(project(":entur"))
-
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-
-    testImplementation(kotlin("test"))
-}
-
-tasks.test {
-    useJUnitPlatform()
-}
-kotlin {
-    jvmToolchain(17)
+    kotlin("multiplatform") version "2.3.0" apply false
+    kotlin("plugin.serialization") version "2.3.0" apply false
+    id("com.android.library") version "8.7.3" apply false
+    id("com.apollographql.apollo") version "4.3.3" apply false
 }
