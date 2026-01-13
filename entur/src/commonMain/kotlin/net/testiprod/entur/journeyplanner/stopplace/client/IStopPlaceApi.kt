@@ -2,8 +2,8 @@ package net.testiprod.entur.journeyplanner.stopplace.client
 
 import net.testiprod.entur.common.DEFAULT_NUMBER_OF_DEPARTURES
 import net.testiprod.entur.common.models.DirectionType
-import net.testiprod.entur.common.models.StopPlaceDetails
-import net.testiprod.entur.common.models.StopPlaceQuay
+import net.testiprod.entur.journeyplanner.stopplace.models.StopPlaceDetails
+import net.testiprod.entur.journeyplanner.stopplace.models.StopPlaceQuay
 import net.testiprod.entur.http.EnturResult
 
 interface IStopPlaceApi {

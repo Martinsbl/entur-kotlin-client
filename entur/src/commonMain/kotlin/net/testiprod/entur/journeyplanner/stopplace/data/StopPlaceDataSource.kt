@@ -3,7 +3,7 @@ package net.testiprod.entur.journeyplanner.stopplace.data
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import net.testiprod.entur.common.models.StopPlaceQuay
+import net.testiprod.entur.journeyplanner.stopplace.models.StopPlaceQuay
 import net.testiprod.entur.http.EnturResult
 import net.testiprod.entur.journeyplanner.stopplace.client.IStopPlaceApi
 import net.testiprod.entur.journeyplanner.timetableconfig.TimeTableConfiguration

@@ -2,7 +2,7 @@ package net.testiprod
 
 import kotlinx.coroutines.runBlocking
 import net.testiprod.entur.common.OSLO_S
-import net.testiprod.entur.common.models.StopPlaceQuay
+import net.testiprod.entur.journeyplanner.stopplace.models.StopPlaceQuay
 import net.testiprod.entur.http.EnturResult
 import net.testiprod.entur.journeyplanner.stopplace.client.StopPlaceApi
 

@@ -1,4 +1,6 @@
-package net.testiprod.entur.common.models
+package net.testiprod.entur.journeyplanner.stopplace.models
+
+import net.testiprod.entur.common.models.EstimatedCall
 
 data class StopPlaceQuay(
     val id: String,

@@ -9,12 +9,11 @@ import net.testiprod.entur.common.JOURNEY_PLANNER_BASE_URL
 import net.testiprod.entur.common.exceptions.EnturResponseException
 import net.testiprod.entur.common.models.DirectionType
 import net.testiprod.entur.common.models.EstimatedCall
-import net.testiprod.entur.common.models.Quay.Companion.toDomain
-import net.testiprod.entur.common.models.StopPlaceDetails
-import net.testiprod.entur.common.models.StopPlaceDetails.Companion.toDomain
-import net.testiprod.entur.common.models.StopPlaceQuay
+import net.testiprod.entur.journeyplanner.stopplace.models.StopPlaceDetails
+import net.testiprod.entur.journeyplanner.stopplace.models.StopPlaceQuay
 import net.testiprod.entur.http.EnturApolloClientFactory
 import net.testiprod.entur.http.EnturResult
+import net.testiprod.entur.journeyplanner.stopplace.toDomain
 
 class StopPlaceApi(private val apolloClient: ApolloClient) : IStopPlaceApi {
     constructor(
