@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "net.testiprod.entur"
-version = "0.0.1-SNAPSHOT"
+version = "0.0.2-SNAPSHOT"
 
 android {
     namespace = "net.testiprod.entur"
@@ -89,5 +89,13 @@ apollo {
 publishing {
     repositories {
         mavenLocal()
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/Martinsbl/entur-kotlin-client")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR") ?: project.findProperty("github.actor") as String?
+                password = System.getenv("GITHUB_TOKEN") ?: project.findProperty("github.token") as String?
+            }
+        }
     }
 }
