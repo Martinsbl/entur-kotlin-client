@@ -14,7 +14,7 @@ fun main() {
 
     // Create a coroutine scope to call suspend functions
     runBlocking {
-        val stopPlaces = stopPlaceApi.fetchStopPlace(OSLO_S)
+        val stopPlaces = stopPlaceApi.fetchStopPlaceQuay(OSLO_S)
         println(stopPlaces.toPrettyString())
     }
 }

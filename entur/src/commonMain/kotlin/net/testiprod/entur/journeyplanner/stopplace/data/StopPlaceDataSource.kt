@@ -15,7 +15,7 @@ class StopPlaceDataSource(private val stopPlaceApi: IStopPlaceApi) {
         return flow {
             while (true) {
                 emit(EnturState.Loading)
-                val enturResponse = stopPlaceApi.fetchStopPlace(
+                val enturResponse = stopPlaceApi.fetchStopPlaceQuay(
                     configuration.stopId,
                     configuration.numberOfDepartures,
                     configuration.directionType,

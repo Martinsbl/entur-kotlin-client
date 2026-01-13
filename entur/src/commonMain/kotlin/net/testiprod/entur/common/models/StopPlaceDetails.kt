@@ -7,21 +7,21 @@ import net.testiprod.entur.common.models.EstimatedCall.Companion.toDomain
 import net.testiprod.entur.common.models.Quay.Companion.toDomain
 
 @Serializable
-data class StopPlace(
+data class StopPlaceDetails(
     val name: String,
     val id: String,
     val quays: List<Quay>?,
     val estimatedCalls: List<EstimatedCall>,
 ) {
     companion object {
-        internal fun StopPlaceDetailsQuery.StopPlace.toDomain(): StopPlace = StopPlace(
+        internal fun StopPlaceDetailsQuery.StopPlace.toDomain(): StopPlaceDetails = StopPlaceDetails(
             id = id,
             name = name,
             quays = this.quays?.mapNotNull { it?.toDomain() },
             estimatedCalls = emptyList(),
         )
 
-        internal fun StopPlaceQuery.StopPlace.toDomain(): StopPlace = StopPlace(
+        internal fun StopPlaceQuery.StopPlace.toDomain(): StopPlaceDetails = StopPlaceDetails(
             name,
             id,
             emptyList(),
