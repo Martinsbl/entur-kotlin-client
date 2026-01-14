@@ -1,4 +1,4 @@
-package net.testiprod.entur.vehicle.domain
+package net.testiprod.entur.vehicle.models
 
 data class Location(
     val lat: Double,

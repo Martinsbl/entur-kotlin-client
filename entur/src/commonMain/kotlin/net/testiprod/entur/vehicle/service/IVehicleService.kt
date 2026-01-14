@@ -1,9 +1,9 @@
-package net.testiprod.entur.vehicle.data
+package net.testiprod.entur.vehicle.service
 
 import kotlinx.coroutines.flow.Flow
-import net.testiprod.entur.vehicle.domain.Vehicle
+import net.testiprod.entur.vehicle.models.Vehicle
 
-interface VehicleRepositoryInterface {
+interface IVehicleService {
 
     // TODO Flow for subscription state?
 

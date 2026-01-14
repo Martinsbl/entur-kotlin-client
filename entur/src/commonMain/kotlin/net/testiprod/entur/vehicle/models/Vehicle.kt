@@ -1,4 +1,4 @@
-package net.testiprod.entur.vehicle.domain
+package net.testiprod.entur.vehicle.models
 
 import net.testiprod.entur.common.models.OccupancyStatus
 import kotlin.time.Instant

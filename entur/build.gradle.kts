@@ -75,6 +75,12 @@ kotlin {
     }
 }
 
+/**
+ * To generate/update schemas, use command:
+ * .\gradlew entur:downloadApolloSchema --endpoint="https://api.entur.io/journey-planner/v3/graphql" --schema="entur/src/main/graphql/journeyplanner/schema.json"
+ * .\gradlew entur:downloadApolloSchema --endpoint="https://api.entur.io/realtime/v1/vehicles/graphql" --schema="entur/src/main/graphql/vehiclepositions/schema.json"
+ *
+ */
 apollo {
     service("journeyplanner") {
         packageName.set("net.testiprod.entur.apollographql.journeyplanner")

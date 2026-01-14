@@ -9,3 +9,6 @@ const val DRAMMEN_BUSS_STASJON = "NSR:StopPlace:16804"
 const val DEFAULT_NUMBER_OF_DEPARTURES = 16
 
 internal const val JOURNEY_PLANNER_BASE_URL = "https://api.entur.io/journey-planner/v3/graphql"
+internal const val VEHICLES_BASE_URL = "https://api.entur.io/realtime/v1/vehicles/graphql"
+internal const val VEHICLE_SUBSCRIPTION_BASE_URL =
+    "wss://api.entur.io/realtime/v1/vehicles/subscriptions" // TODO Update to v2

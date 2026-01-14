@@ -1,6 +1,5 @@
-package net.testiprod.entur.vehicle.data
+package net.testiprod.entur.vehicle.service
 
-import io.ktor.client.HttpClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
@@ -9,22 +8,21 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
 import net.testiprod.entur.http.EnturResult
-import net.testiprod.entur.vehicle.domain.Vehicle
+import net.testiprod.entur.vehicle.api.VehicleApi
+import net.testiprod.entur.vehicle.models.Vehicle
 import kotlin.time.Clock
 
-class VehicleRepository(
-    httpClient: HttpClient,
+class VehicleService(
+    private val vehicleApi: VehicleApi,
     private val vehicleTimeout: Long,
-) : VehicleRepositoryInterface {
-
-    private val vehicleDataSource = VehicleDataSource(httpClient)
+) : IVehicleService {
 
     override fun getVehicleFlow(
         codeSpaceId: String?,
         lineRef: String?,
     ): Flow<List<Vehicle>> {
         val initialQuery = flow {
-            val response = vehicleDataSource.queryVehicles(codeSpaceId, lineRef)
+            val response = vehicleApi.fetchVehicles(codeSpaceId, lineRef)
             when (response) {
                 is EnturResult.Success -> {
                     emit(response.data)
@@ -36,7 +34,7 @@ class VehicleRepository(
             }
         }
         val subscription =
-            vehicleDataSource.subscribeToVehicleUpdates(codeSpaceId, lineRef, ::onError)
+            vehicleApi.subscribeToVehicleUpdates(codeSpaceId, lineRef, ::onError)
         return merge(initialQuery, subscription)
             .flowOn(Dispatchers.Default)
             .filter { it.isNotEmpty() }
