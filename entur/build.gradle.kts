@@ -39,6 +39,7 @@ kotlin {
 
     sourceSets {
         val ktorVersion = "3.3.3"
+        val coroutinesVersion = "1.10.2"
         commonMain.dependencies {
             implementation("com.apollographql.ktor:apollo-engine-ktor:0.1.1")
             implementation("com.apollographql.apollo:apollo-runtime:4.3.3")
@@ -48,7 +49,7 @@ kotlin {
             implementation("io.ktor:ktor-client-logging:$ktorVersion")
             implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
 
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
             implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.7.1")
 
             implementation("ch.qos.logback:logback-classic:1.5.24")
@@ -68,6 +69,8 @@ kotlin {
 
         commonTest.dependencies {
             implementation(kotlin("test"))
+            implementation("io.ktor:ktor-client-mock:$ktorVersion")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
         }
     }
 }

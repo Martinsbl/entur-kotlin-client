@@ -14,21 +14,6 @@ import net.testiprod.entur.http.transformResult
 class GeocoderApi(private val httpClient: HttpClient) {
 
     suspend fun fetchStopPlaces(
-        lat: Double,
-        lon: Double,
-        radius: Int = 20,
-    ): EnturResult<String> = doHttpRequest<String> {
-        httpClient.get("/geocoder/v1/reverse") {
-            url {
-                parameters.append("point.lat", lat.toString())
-                parameters.append("point.lon", lon.toString())
-                parameters.append("boundary.circle.radius", radius.toString())
-                parameters.append("layers", "venue")
-            }
-        }
-    }
-
-    suspend fun fetchStopPlaces(
         text: String,
         size: Int = 20,
         multiModal: MultiModal = MultiModal.CHILD,
@@ -42,10 +27,6 @@ class GeocoderApi(private val httpClient: HttpClient) {
             }
         }
     }.transformResult {
-        it.features.filterStopPlaces()
-    }
-
-    private fun List<Feature>.filterStopPlaces(): List<Feature> = this.filter {
-        it.properties.layer.contains("venue")
+        it.features
     }
 }

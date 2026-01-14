@@ -2,6 +2,7 @@ package net.testiprod.entur.common.models
 
 import kotlinx.serialization.Serializable
 
+@Serializable
 data class FeatureResult(val features: List<Feature>)
 
 @Serializable
@@ -32,5 +33,6 @@ enum class Category {
     railStation,
     tramStation,
     vehicleRailInterchange,
+    GroupOfStopPlaces,
     other,
 }

@@ -1,0 +1,761 @@
+{
+  "geocoding": {
+    "version": "0.2",
+    "attribution": "http://pelias.mapzen.com/v1/attribution",
+    "engine": {
+      "name": "Photon",
+      "author": "Komoot",
+      "version": "0.7.0"
+    },
+    "timestamp": 1768411765909
+  },
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.748128,
+          59.911076
+        ]
+      },
+      "properties": {
+        "id": "NSR:GroupOfStopPlaces:1",
+        "gid": "whosonfirst:address:NSR:GroupOfStopPlaces:1",
+        "layer": "address",
+        "source": "whosonfirst",
+        "source_id": "NSR:GroupOfStopPlaces:1",
+        "name": "Oslo",
+        "street": "NOT_AN_ADDRESS-NSR:GroupOfStopPlaces:1",
+        "accuracy": "point",
+        "country_a": "NOR",
+        "county": "Oslo",
+        "county_gid": "whosonfirst:county:KVE:TopographicPlace:03",
+        "locality": "Oslo",
+        "locality_gid": "whosonfirst:locality:KVE:TopographicPlace:0301",
+        "label": "Oslo",
+        "category": [
+          "GroupOfStopPlaces"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.753276,
+          59.910925
+        ]
+      },
+      "properties": {
+        "id": "NSR:StopPlace:337",
+        "gid": "geonames:venue:NSR:StopPlace:337",
+        "layer": "venue",
+        "source": "geonames",
+        "source_id": "NSR:StopPlace:337",
+        "name": "Oslo S",
+        "popular_name": "Oslo Central station",
+        "street": "NOT_AN_ADDRESS-NSR:StopPlace:337",
+        "accuracy": "point",
+        "country_a": "NOR",
+        "county": "Oslo",
+        "county_gid": "whosonfirst:county:KVE:TopographicPlace:03",
+        "locality": "Oslo",
+        "locality_gid": "whosonfirst:locality:KVE:TopographicPlace:0301",
+        "label": "Oslo S, Oslo",
+        "category": [
+          "railStation"
+        ],
+        "tariff_zones": [
+          "OST:TariffZone:227",
+          "BRA:TariffZone:311",
+          "RUT:TariffZone:1",
+          "RUT:FareZone:4"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.753051,
+          59.910357
+        ]
+      },
+      "properties": {
+        "id": "NSR:StopPlace:59872",
+        "gid": "openstreetmap:venue:NSR:StopPlace:59872",
+        "layer": "venue",
+        "source": "openstreetmap",
+        "source_id": "NSR:StopPlace:59872",
+        "name": "Oslo S",
+        "popular_name": "Oslo Sentralstasjon",
+        "street": "NOT_AN_ADDRESS-NSR:StopPlace:59872",
+        "accuracy": "point",
+        "country_a": "NOR",
+        "county": "Oslo",
+        "county_gid": "whosonfirst:county:KVE:TopographicPlace:03",
+        "locality": "Oslo",
+        "locality_gid": "whosonfirst:locality:KVE:TopographicPlace:0301",
+        "label": "Oslo S, Oslo",
+        "category": [
+          "onstreetBus",
+          "railStation",
+          "onstreetBus"
+        ],
+        "tariff_zones": [
+          "OST:TariffZone:227",
+          "BRA:TariffZone:311",
+          "RUT:TariffZone:1",
+          "RUT:FareZone:4"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.757994,
+          59.911768
+        ]
+      },
+      "properties": {
+        "id": "NSR:StopPlace:6505",
+        "gid": "geonames:venue:NSR:StopPlace:6505",
+        "layer": "venue",
+        "source": "geonames",
+        "source_id": "NSR:StopPlace:6505",
+        "name": "Oslo bussterminal",
+        "popular_name": "Oslo Bus Terminal",
+        "street": "NOT_AN_ADDRESS-NSR:StopPlace:6505",
+        "accuracy": "point",
+        "country_a": "NOR",
+        "county": "Oslo",
+        "county_gid": "whosonfirst:county:KVE:TopographicPlace:03",
+        "locality": "Oslo",
+        "locality_gid": "whosonfirst:locality:KVE:TopographicPlace:0301",
+        "label": "Oslo bussterminal, Oslo",
+        "category": [
+          "busStation"
+        ],
+        "tariff_zones": [
+          "OST:TariffZone:227",
+          "BRA:TariffZone:311",
+          "INN:FareZone:214",
+          "RUT:TariffZone:1",
+          "OST:FareZone:15",
+          "INN:TariffZone:3000",
+          "BRA:FareZone:31",
+          "RUT:FareZone:4"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.097244,
+          60.193473
+        ]
+      },
+      "properties": {
+        "id": "NSR:StopPlace:5357",
+        "gid": "geonames:venue:NSR:StopPlace:5357",
+        "layer": "venue",
+        "source": "geonames",
+        "source_id": "NSR:StopPlace:5357",
+        "name": "Oslo lufthavn",
+        "street": "NOT_AN_ADDRESS-NSR:StopPlace:5357",
+        "accuracy": "point",
+        "country_a": "NOR",
+        "county": "Akershus",
+        "county_gid": "whosonfirst:county:KVE:TopographicPlace:32",
+        "locality": "Ullensaker",
+        "locality_gid": "whosonfirst:locality:KVE:TopographicPlace:3209",
+        "label": "Oslo lufthavn, Ullensaker",
+        "category": [
+          "busStation"
+        ],
+        "tariff_zones": [
+          "INN:TariffZone:421",
+          "RUT:TariffZone:4N",
+          "RUT:FareZone:1"
+        ],
+        "description": [
+          {
+            "nor": "Ankomsthall, nedre plan"
+          },
+          {
+            "eng": "Arrival hall, lower floor"
+          }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.097887,
+          60.193361
+        ]
+      },
+      "properties": {
+        "id": "NSR:StopPlace:58211",
+        "gid": "openstreetmap:venue:NSR:StopPlace:58211",
+        "layer": "venue",
+        "source": "openstreetmap",
+        "source_id": "NSR:StopPlace:58211",
+        "name": "Oslo lufthavn",
+        "popular_name": "Gardermoen",
+        "street": "NOT_AN_ADDRESS-NSR:StopPlace:58211",
+        "accuracy": "point",
+        "country_a": "NOR",
+        "county": "Akershus",
+        "county_gid": "whosonfirst:county:KVE:TopographicPlace:32",
+        "locality": "Ullensaker",
+        "locality_gid": "whosonfirst:locality:KVE:TopographicPlace:3209",
+        "label": "Oslo lufthavn, Ullensaker",
+        "category": [
+          "railStation",
+          "onstreetBus",
+          "busStation",
+          "airport"
+        ],
+        "tariff_zones": [
+          "INN:TariffZone:421",
+          "RUT:TariffZone:4N",
+          "RUT:FareZone:1"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.759488,
+          59.911318
+        ]
+      },
+      "properties": {
+        "id": "NSR:StopPlace:58293",
+        "gid": "openstreetmap:venue:NSR:StopPlace:58293",
+        "layer": "venue",
+        "source": "openstreetmap",
+        "source_id": "NSR:StopPlace:58293",
+        "name": "Oslo bussterminal",
+        "street": "NOT_AN_ADDRESS-NSR:StopPlace:58293",
+        "accuracy": "point",
+        "country_a": "NOR",
+        "county": "Oslo",
+        "county_gid": "whosonfirst:county:KVE:TopographicPlace:03",
+        "locality": "Oslo",
+        "locality_gid": "whosonfirst:locality:KVE:TopographicPlace:0301",
+        "label": "Oslo bussterminal, Oslo",
+        "category": [
+          "onstreetBus",
+          "onstreetBus",
+          "busStation"
+        ],
+        "tariff_zones": [
+          "OST:TariffZone:227",
+          "BRA:TariffZone:311",
+          "INN:FareZone:214",
+          "RUT:TariffZone:1",
+          "INN:TariffZone:3000",
+          "RUT:FareZone:4"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.096735,
+          60.192981
+        ]
+      },
+      "properties": {
+        "id": "NSR:StopPlace:269",
+        "gid": "geonames:venue:NSR:StopPlace:269",
+        "layer": "venue",
+        "source": "geonames",
+        "source_id": "NSR:StopPlace:269",
+        "name": "Oslo lufthavn stasjon",
+        "popular_name": "Gardermoen",
+        "street": "NOT_AN_ADDRESS-NSR:StopPlace:269",
+        "accuracy": "point",
+        "country_a": "NOR",
+        "county": "Akershus",
+        "county_gid": "whosonfirst:county:KVE:TopographicPlace:32",
+        "locality": "Ullensaker",
+        "locality_gid": "whosonfirst:locality:KVE:TopographicPlace:3209",
+        "label": "Oslo lufthavn stasjon, Ullensaker",
+        "category": [
+          "railStation"
+        ],
+        "tariff_zones": [
+          "INN:TariffZone:421",
+          "RUT:TariffZone:4N",
+          "RUT:FareZone:1"
+        ],
+        "description": [
+          {
+            "nor": "Gardermoen"
+          },
+          {
+            "eng": "Gardermoen"
+          }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.767495,
+          59.903165
+        ]
+      },
+      "properties": {
+        "id": "NSR:StopPlace:58296",
+        "gid": "openstreetmap:venue:NSR:StopPlace:58296",
+        "layer": "venue",
+        "source": "openstreetmap",
+        "source_id": "NSR:StopPlace:58296",
+        "name": "Oslo Hospital",
+        "street": "NOT_AN_ADDRESS-NSR:StopPlace:58296",
+        "accuracy": "point",
+        "country_a": "NOR",
+        "county": "Oslo",
+        "county_gid": "whosonfirst:county:KVE:TopographicPlace:03",
+        "locality": "Oslo",
+        "locality_gid": "whosonfirst:locality:KVE:TopographicPlace:0301",
+        "label": "Oslo Hospital, Oslo",
+        "category": [
+          "onstreetBus",
+          "onstreetTram"
+        ],
+        "tariff_zones": [
+          "OST:TariffZone:227",
+          "RUT:TariffZone:1",
+          "RUT:FareZone:4"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.743266,
+          59.902966
+        ]
+      },
+      "properties": {
+        "id": "NSR:StopPlace:59222",
+        "gid": "openstreetmap:venue:NSR:StopPlace:59222",
+        "layer": "venue",
+        "source": "openstreetmap",
+        "source_id": "NSR:StopPlace:59222",
+        "name": "Vippetangen ferjeterminal",
+        "street": "NOT_AN_ADDRESS-NSR:StopPlace:59222",
+        "accuracy": "point",
+        "country_a": "NOR",
+        "county": "Oslo",
+        "county_gid": "whosonfirst:county:KVE:TopographicPlace:03",
+        "locality": "Oslo",
+        "locality_gid": "whosonfirst:locality:KVE:TopographicPlace:0301",
+        "label": "Vippetangen ferjeterminal, Oslo",
+        "category": [
+          "harbourPort",
+          "onstreetBus"
+        ],
+        "tariff_zones": [
+          "BRA:TariffZone:311",
+          "RUT:TariffZone:1",
+          "RUT:FareZone:4"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.767492,
+          59.903213
+        ]
+      },
+      "properties": {
+        "id": "NSR:StopPlace:6535",
+        "gid": "geonames:venue:NSR:StopPlace:6535",
+        "layer": "venue",
+        "source": "geonames",
+        "source_id": "NSR:StopPlace:6535",
+        "name": "Oslo Hospital",
+        "street": "NOT_AN_ADDRESS-NSR:StopPlace:6535",
+        "accuracy": "point",
+        "country_a": "NOR",
+        "county": "Oslo",
+        "county_gid": "whosonfirst:county:KVE:TopographicPlace:03",
+        "locality": "Oslo",
+        "locality_gid": "whosonfirst:locality:KVE:TopographicPlace:0301",
+        "label": "Oslo Hospital, Oslo",
+        "category": [
+          "onstreetTram"
+        ],
+        "tariff_zones": [
+          "OST:TariffZone:227",
+          "RUT:TariffZone:1",
+          "RUT:FareZone:4"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.755165,
+          59.909584
+        ]
+      },
+      "properties": {
+        "id": "NSR:StopPlace:2",
+        "gid": "geonames:venue:NSR:StopPlace:2",
+        "layer": "venue",
+        "source": "geonames",
+        "source_id": "NSR:StopPlace:2",
+        "name": "Oslo S Trelastgata",
+        "street": "NOT_AN_ADDRESS-NSR:StopPlace:2",
+        "accuracy": "point",
+        "country_a": "NOR",
+        "county": "Oslo",
+        "county_gid": "whosonfirst:county:KVE:TopographicPlace:03",
+        "locality": "Oslo",
+        "locality_gid": "whosonfirst:locality:KVE:TopographicPlace:0301",
+        "label": "Oslo S Trelastgata, Oslo",
+        "category": [
+          "onstreetBus"
+        ],
+        "tariff_zones": [
+          "OST:TariffZone:227",
+          "BRA:TariffZone:311",
+          "RUT:TariffZone:1",
+          "RUT:FareZone:4"
+        ],
+        "description": [
+          {
+            "nor": "ved spor 19"
+          },
+          {
+            "eng": "at track 19"
+          }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.099174,
+          60.193376
+        ]
+      },
+      "properties": {
+        "id": "NSR:StopPlace:5351",
+        "gid": "geonames:venue:NSR:StopPlace:5351",
+        "layer": "venue",
+        "source": "geonames",
+        "source_id": "NSR:StopPlace:5351",
+        "name": "Oslo lufthavn",
+        "street": "NOT_AN_ADDRESS-NSR:StopPlace:5351",
+        "accuracy": "point",
+        "country_a": "NOR",
+        "county": "Akershus",
+        "county_gid": "whosonfirst:county:KVE:TopographicPlace:32",
+        "locality": "Ullensaker",
+        "locality_gid": "whosonfirst:locality:KVE:TopographicPlace:3209",
+        "label": "Oslo lufthavn, Ullensaker",
+        "category": [
+          "onstreetBus"
+        ],
+        "tariff_zones": [
+          "INN:TariffZone:421",
+          "RUT:TariffZone:4N",
+          "RUT:FareZone:1"
+        ],
+        "description": [
+          {
+            "nor": "avgangshall, øvre plan"
+          },
+          {
+            "eng": "departure hall, upper floor"
+          }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.709331,
+          59.908545
+        ]
+      },
+      "properties": {
+        "id": "NSR:StopPlace:57960",
+        "gid": "whosonfirst:venue:NSR:StopPlace:57960",
+        "layer": "venue",
+        "source": "whosonfirst",
+        "source_id": "NSR:StopPlace:57960",
+        "name": "Oslo Hjortneskaien",
+        "popular_name": "Color Line",
+        "street": "NOT_AN_ADDRESS-NSR:StopPlace:57960",
+        "accuracy": "point",
+        "country_a": "NOR",
+        "county": "Oslo",
+        "county_gid": "whosonfirst:county:KVE:TopographicPlace:03",
+        "locality": "Oslo",
+        "locality_gid": "whosonfirst:locality:KVE:TopographicPlace:0301",
+        "label": "Oslo Hjortneskaien, Oslo",
+        "category": [
+          "harbourPort"
+        ],
+        "tariff_zones": [
+          "BRA:TariffZone:311",
+          "RUT:TariffZone:1",
+          "RUT:FareZone:4"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.185373,
+          58.945175
+        ]
+      },
+      "properties": {
+        "id": "NSR:StopPlace:57965",
+        "gid": "whosonfirst:venue:NSR:StopPlace:57965",
+        "layer": "venue",
+        "source": "whosonfirst",
+        "source_id": "NSR:StopPlace:57965",
+        "name": "Oslovägen",
+        "street": "NOT_AN_ADDRESS-NSR:StopPlace:57965",
+        "accuracy": "point",
+        "country_a": "SWE",
+        "county": "Västra Götalands län",
+        "county_gid": "whosonfirst:county:LAN:TopographicPlace:14",
+        "locality": "Strömstad",
+        "locality_gid": "whosonfirst:locality:LAN:TopographicPlace:1486",
+        "label": "Oslovägen, Strömstad",
+        "category": [
+          "onstreetBus"
+        ],
+        "tariff_zones": [
+          "OST:TariffZone:277"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.748819,
+          59.909030
+        ]
+      },
+      "properties": {
+        "id": "NSR:StopPlace:60158",
+        "gid": "geonames:venue:NSR:StopPlace:60158",
+        "layer": "venue",
+        "source": "geonames",
+        "source_id": "NSR:StopPlace:60158",
+        "name": "Oslo Tollbugata",
+        "street": "NOT_AN_ADDRESS-NSR:StopPlace:60158",
+        "accuracy": "point",
+        "country_a": "NOR",
+        "county": "Oslo",
+        "county_gid": "whosonfirst:county:KVE:TopographicPlace:03",
+        "locality": "Oslo",
+        "locality_gid": "whosonfirst:locality:KVE:TopographicPlace:0301",
+        "label": "Oslo Tollbugata, Oslo",
+        "category": [
+          "onstreetBus"
+        ],
+        "tariff_zones": [
+          "BRA:TariffZone:311",
+          "RUT:TariffZone:1",
+          "RUT:FareZone:4"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.761925,
+          59.911557
+        ]
+      },
+      "properties": {
+        "id": "NSR:StopPlace:60237",
+        "gid": "geonames:venue:NSR:StopPlace:60237",
+        "layer": "venue",
+        "source": "geonames",
+        "source_id": "NSR:StopPlace:60237",
+        "name": "Oslo bussterminal",
+        "street": "NOT_AN_ADDRESS-NSR:StopPlace:60237",
+        "accuracy": "point",
+        "country_a": "NOR",
+        "county": "Oslo",
+        "county_gid": "whosonfirst:county:KVE:TopographicPlace:03",
+        "locality": "Oslo",
+        "locality_gid": "whosonfirst:locality:KVE:TopographicPlace:0301",
+        "label": "Oslo bussterminal, Oslo",
+        "category": [
+          "onstreetBus"
+        ],
+        "tariff_zones": [
+          "OST:TariffZone:227",
+          "BRA:TariffZone:311",
+          "RUT:TariffZone:1",
+          "RUT:FareZone:4"
+        ],
+        "description": [
+          {
+            "nor": "i Tøyenbekken"
+          },
+          {
+            "eng": "in Tøyenbekken"
+          }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.767495,
+          59.903121
+        ]
+      },
+      "properties": {
+        "id": "NSR:StopPlace:64016",
+        "gid": "geonames:venue:NSR:StopPlace:64016",
+        "layer": "venue",
+        "source": "geonames",
+        "source_id": "NSR:StopPlace:64016",
+        "name": "Oslo Hospital",
+        "street": "NOT_AN_ADDRESS-NSR:StopPlace:64016",
+        "accuracy": "point",
+        "country_a": "NOR",
+        "county": "Oslo",
+        "county_gid": "whosonfirst:county:KVE:TopographicPlace:03",
+        "locality": "Oslo",
+        "locality_gid": "whosonfirst:locality:KVE:TopographicPlace:0301",
+        "label": "Oslo Hospital, Oslo",
+        "category": [
+          "onstreetBus"
+        ],
+        "tariff_zones": [
+          "OST:TariffZone:227",
+          "RUT:TariffZone:1",
+          "RUT:FareZone:4"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.743419,
+          59.902760
+        ]
+      },
+      "properties": {
+        "id": "NSR:StopPlace:57953",
+        "gid": "geonames:venue:NSR:StopPlace:57953",
+        "layer": "venue",
+        "source": "geonames",
+        "source_id": "NSR:StopPlace:57953",
+        "name": "Oslo Vippetangen",
+        "street": "NOT_AN_ADDRESS-NSR:StopPlace:57953",
+        "accuracy": "point",
+        "country_a": "NOR",
+        "county": "Oslo",
+        "county_gid": "whosonfirst:county:KVE:TopographicPlace:03",
+        "locality": "Oslo",
+        "locality_gid": "whosonfirst:locality:KVE:TopographicPlace:0301",
+        "label": "Oslo Vippetangen, Oslo",
+        "category": [
+          "harbourPort"
+        ],
+        "tariff_zones": [
+          "BRA:TariffZone:311",
+          "RUT:TariffZone:1",
+          "RUT:FareZone:4"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.099378,
+          60.193916
+        ]
+      },
+      "properties": {
+        "id": "NSR:StopPlace:718",
+        "gid": "geonames:venue:NSR:StopPlace:718",
+        "layer": "venue",
+        "source": "geonames",
+        "source_id": "NSR:StopPlace:718",
+        "name": "Oslo lufthavn",
+        "street": "NOT_AN_ADDRESS-NSR:StopPlace:718",
+        "accuracy": "point",
+        "country_a": "NOR",
+        "county": "Akershus",
+        "county_gid": "whosonfirst:county:KVE:TopographicPlace:32",
+        "locality": "Ullensaker",
+        "locality_gid": "whosonfirst:locality:KVE:TopographicPlace:3209",
+        "label": "Oslo lufthavn, Ullensaker",
+        "category": [
+          "airport"
+        ],
+        "tariff_zones": [
+          "INN:TariffZone:421",
+          "RUT:TariffZone:4N",
+          "RUT:FareZone:1"
+        ]
+      }
+    }
+  ],
+  "bbox": [
+    10.709331,
+    58.945175,
+    11.185373,
+    60.193916
+  ]
+}
