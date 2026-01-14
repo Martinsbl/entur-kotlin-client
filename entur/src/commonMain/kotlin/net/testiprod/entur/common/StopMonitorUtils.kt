@@ -35,7 +35,4 @@ object StopMonitorUtils {
         delayHysteresisMs: Long = 30_000L,
     ): Boolean =
         expectedDepartureTime.toEpochMilliseconds() > (aimedDepartureTime.toEpochMilliseconds() + delayHysteresisMs)
-
-    private const val WHITE = 0XFFFFFFFF.toInt()
-    private const val BLACK = 0XFF000000.toInt()
 }
