@@ -43,6 +43,7 @@ object EnturHttpClientFactory {
             }
 
             install(Logging) {
+                // TODO Configurable logging level?
                 logger = Logger.DEFAULT
                 level = LogLevel.ALL
             }

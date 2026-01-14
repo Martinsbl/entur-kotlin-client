@@ -1,4 +1,4 @@
-package net.testiprod.entur.journeyplanner.stopplace.client
+package net.testiprod.entur.journeyplanner.stopplace.api
 
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Optional

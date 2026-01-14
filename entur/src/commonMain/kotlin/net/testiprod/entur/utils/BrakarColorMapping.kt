@@ -2,6 +2,9 @@ package net.testiprod.entur.utils
 
 import net.testiprod.entur.common.models.Presentation
 
+/**
+ * https://brakar.no/ruter/
+ */
 fun getBrakarPresentations(publicCode: String?) = when (publicCode) {
     "1" -> Presentation(0xFFf5c445.toInt(), BLACK)
     "2", "14", "15" -> Presentation(0xFFda3832.toInt(), WHITE)

@@ -1,8 +1,8 @@
 package net.testiprod.entur.http
 
 sealed class EnturResult<out T : Any> {
+    // TODO Loading state?
     data class Success<T : Any>(val data: T) : EnturResult<T>()
-
     data class Error(val exception: Throwable?) : EnturResult<Nothing>()
 }
 

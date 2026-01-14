@@ -1,4 +1,4 @@
-package net.testiprod.entur.journeyplanner.stopplace.client
+package net.testiprod.entur.journeyplanner.stopplace.api
 
 import net.testiprod.entur.common.DEFAULT_NUMBER_OF_DEPARTURES
 import net.testiprod.entur.http.EnturResult
