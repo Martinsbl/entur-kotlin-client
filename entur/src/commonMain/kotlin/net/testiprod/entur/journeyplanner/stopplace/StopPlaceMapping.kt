@@ -3,9 +3,7 @@ package net.testiprod.entur.journeyplanner.stopplace
 import net.testiprod.entur.apollographql.journeyplanner.QuayQuery
 import net.testiprod.entur.apollographql.journeyplanner.StopPlaceDetailsQuery
 import net.testiprod.entur.apollographql.journeyplanner.StopPlaceQuery
-import net.testiprod.entur.common.models.EstimatedCall.Companion.toDomain
-import net.testiprod.entur.common.models.JourneyPattern.Companion.toDomain
-import net.testiprod.entur.common.models.Line.Companion.toDomain
+import net.testiprod.entur.common.toDomain
 import net.testiprod.entur.journeyplanner.stopplace.models.Quay
 import net.testiprod.entur.journeyplanner.stopplace.models.StopPlaceDetails
 

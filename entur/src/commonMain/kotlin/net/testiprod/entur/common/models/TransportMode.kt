@@ -17,29 +17,4 @@ enum class TransportMode(val rawValue: String) {
     TROLLEYBUS("trolleybus"),
     WATER("water"),
     UNKNOWN("unknown"),
-    ;
-
-    companion object {
-
-        internal fun EnturTransportMode?.toDomain(): TransportMode {
-            return when (this) {
-                EnturTransportMode.air -> AIR
-                EnturTransportMode.bus -> BUS
-                EnturTransportMode.cableway -> CABLEWAY
-                EnturTransportMode.water -> WATER
-                EnturTransportMode.funicular -> FUNICULAR
-                EnturTransportMode.lift -> LIFT
-                EnturTransportMode.rail -> RAIL
-                EnturTransportMode.metro -> METRO
-                EnturTransportMode.taxi -> TAXI
-                EnturTransportMode.tram -> TRAM
-                EnturTransportMode.trolleybus -> TROLLEYBUS
-                EnturTransportMode.monorail -> MONORAIL
-                EnturTransportMode.coach -> COACH
-                EnturTransportMode.unknown -> UNKNOWN
-                EnturTransportMode.UNKNOWN__ -> UNKNOWN
-                null -> UNKNOWN
-            }
-        }
-    }
 }

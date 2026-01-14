@@ -1,12 +1,8 @@
 package net.testiprod.entur.common.models
 
 import kotlinx.serialization.Serializable
-import net.testiprod.entur.apollographql.journeyplanner.fragment.SituationsFragment
-import net.testiprod.entur.common.StopMonitorUtils
-import net.testiprod.entur.common.models.Situation.ReportType.Companion.toDomain
 import net.testiprod.entur.common.serialization.InstantSerializer
 import kotlin.time.Instant
-import net.testiprod.entur.apollographql.journeyplanner.type.ReportType as EnturReportType
 
 @Serializable
 data class Situation(
@@ -31,27 +27,5 @@ data class Situation(
         UNKNOWN("unknown"),
         INCIDENT("incident"),
         GENERAL("general"),
-        ;
-
-        companion object {
-            internal fun EnturReportType?.toDomain(): ReportType = when (this) {
-                EnturReportType.general -> GENERAL
-                EnturReportType.incident -> INCIDENT
-                EnturReportType.UNKNOWN__ -> UNKNOWN
-                null -> UNKNOWN
-            }
-        }
-    }
-
-    companion object {
-        internal fun SituationsFragment.toDomain(): Situation = Situation(
-            id,
-            summary.firstOrNull()?.value,
-            description.firstOrNull()?.value,
-            advice.firstOrNull()?.value,
-            reportType.toDomain(),
-            validityPeriod?.startTime?.let { StopMonitorUtils.parseDate(it as String) },
-            validityPeriod?.endTime?.let { StopMonitorUtils.parseDate(it as String) },
-        )
     }
 }
