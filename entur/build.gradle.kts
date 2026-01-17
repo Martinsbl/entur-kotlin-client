@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "net.testiprod.entur"
-version = "0.0.3-SNAPSHOT"
+version = "0.1.0"
 
 android {
     namespace = "net.testiprod.entur"
