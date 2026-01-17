@@ -1,4 +1,4 @@
-package net.testiprod.entur.geocoder
+package net.testiprod.entur
 
 fun getResourceFileAsText(fileName: String): String {
     val resource = object {}.javaClass.classLoader.getResourceAsStream(fileName)

@@ -14,6 +14,7 @@ import net.testiprod.entur.http.EnturResult
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
+import net.testiprod.entur.getResourceFileAsText
 
 class GeocoderApiTest {
 

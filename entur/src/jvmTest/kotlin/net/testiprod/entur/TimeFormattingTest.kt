@@ -1,4 +1,4 @@
-package net.testiprod.entur.geocoder
+package net.testiprod.entur
 
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
