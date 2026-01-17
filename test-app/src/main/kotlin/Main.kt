@@ -1,15 +1,18 @@
 package net.testiprod
 
 import kotlinx.coroutines.runBlocking
+import net.testiprod.entur.common.OSLO_BUSSTERMINAL
 import net.testiprod.entur.common.OSLO_S
 import net.testiprod.entur.common.models.DirectionType
 import net.testiprod.entur.http.EnturResult
 import net.testiprod.entur.journeyplanner.stopplace.api.StopPlaceApi
+import net.testiprod.entur.journeyplanner.stopplace.filtering.LineDirectionFilter
 import net.testiprod.entur.journeyplanner.stopplace.filtering.LineFilter
 import net.testiprod.entur.journeyplanner.stopplace.models.StopPlaceQuay
 import net.testiprod.entur.journeyplanner.stopplace.service.StopPlaceService
 import net.testiprod.entur.vehicle.api.VehicleApi
 import net.testiprod.entur.vehicle.models.Vehicle
+import kotlin.time.Duration.Companion.seconds
 
 fun main() {
     val stopPlaceApi = StopPlaceApi(
@@ -23,28 +26,37 @@ fun main() {
     )
 
     runBlocking {
-        val stopPlaces = stopPlaceApi.fetchStopPlaceQuay(OSLO_S)
-        println(stopPlaces.toPrettyStopPlace())
-        val vehicles = vehicleApi.fetchVehicles("SKY", null)
-        println(vehicles.toPrettyVehicles())
-
-        val filters = listOf(
-            LineFilter("4", DirectionType.OUTBOUND),
-            LineFilter("1", DirectionType.INBOUND),
-        )
-
-//        stopPlaceService.observeStopPlace(
-//            "NSR:StopPlace:17291",
-//            numberOfDepartures = 20,
-//            refreshInterval = 30.seconds,
-//            filters = listOf(LineDirectionFilter(filters)),
-//
-//        ).collect {
-//            println(it.toPrettyStopPlace())
-//        }
+        testApi(stopPlaceApi, vehicleApi)
+//        testService(stopPlaceService)
     }
 
     println("The End")
+}
+
+private suspend fun testApi(
+    stopPlaceApi: StopPlaceApi,
+    vehicleApi: VehicleApi,
+) {
+    val stopPlaces = stopPlaceApi.fetchStopPlaceQuay(OSLO_S)
+    println(stopPlaces.toPrettyStopPlace())
+    val vehicles = vehicleApi.fetchVehicles("SKY", null)
+    println(vehicles.toPrettyVehicles())
+}
+
+private suspend fun testService(stopPlaceService: StopPlaceService) {
+    val filters = listOf(
+        LineFilter("4", DirectionType.OUTBOUND),
+        LineFilter("1", DirectionType.INBOUND),
+    )
+    stopPlaceService.observeStopPlace(
+        OSLO_BUSSTERMINAL,
+        numberOfDepartures = 20,
+        refreshInterval = 30.seconds,
+        filters = listOf(LineDirectionFilter(filters)),
+
+    ).collect {
+        println(it.toPrettyStopPlace())
+    }
 }
 
 private fun EnturResult<StopPlaceQuay>.toPrettyStopPlace(): String {

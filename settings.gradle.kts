@@ -18,6 +18,4 @@ plugins {
 }
 
 rootProject.name = "entur-kotlin-client"
-include("entur")
-
-include("test-app")
+include("entur", "test-app")

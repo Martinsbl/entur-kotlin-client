@@ -38,7 +38,6 @@ object EnturHttpClientFactory {
                     protocol = URLProtocol.HTTPS
                     host = "api.entur.io"
                 }
-                header("Content-Type", "application/json")
                 header("ET-Client-Name", enturClientName)
             }
 
