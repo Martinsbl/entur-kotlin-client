@@ -1,8 +1,6 @@
 package net.testiprod.entur.common
 
-import net.testiprod.entur.apollographql.journeyplanner.StopPlaceDetailsQuery
 import net.testiprod.entur.apollographql.journeyplanner.fragment.EstimatedCallFragment
-import net.testiprod.entur.apollographql.journeyplanner.fragment.Lines
 import net.testiprod.entur.apollographql.journeyplanner.fragment.SituationsFragment
 import net.testiprod.entur.common.StopMonitorUtils.toColorInt
 import net.testiprod.entur.common.models.DestinationDisplay
@@ -44,9 +42,9 @@ import net.testiprod.entur.common.models.TransportMode.TRAM
 import net.testiprod.entur.common.models.TransportMode.TROLLEYBUS
 import net.testiprod.entur.common.models.TransportMode.WATER
 import net.testiprod.entur.apollographql.journeyplanner.StopPlaceDetailsQuery.JourneyPattern as EnturJourneyPattern
-import net.testiprod.entur.apollographql.journeyplanner.fragment.EstimatedCallFragment.Line as EnturLine
-import net.testiprod.entur.apollographql.journeyplanner.fragment.EstimatedCallFragment.Presentation as EnturPresentation
 import net.testiprod.entur.apollographql.journeyplanner.fragment.EstimatedCallFragment.ServiceJourney as EnturServiceJourney
+import net.testiprod.entur.apollographql.journeyplanner.fragment.LinesFragment as EnturLine
+import net.testiprod.entur.apollographql.journeyplanner.fragment.LinesFragment.Presentation as EnturPresentation
 import net.testiprod.entur.apollographql.journeyplanner.type.DirectionType as EnturDirectionType
 import net.testiprod.entur.apollographql.journeyplanner.type.ReportType as EnturReportType
 import net.testiprod.entur.apollographql.journeyplanner.type.TransportMode as EnturTransportMode
@@ -77,17 +75,9 @@ internal fun EstimatedCallFragment.toDomain(): EstimatedCall = EstimatedCall(
 private fun EstimatedCallFragment.getAllSituations(): List<Situation> {
     val situations = situations.map { it.situationsFragment.toDomain() }.toMutableList()
     situations.addAll(serviceJourney.situations.map { it.situationsFragment.toDomain() })
-    situations.addAll(serviceJourney.line.situations.map { it.situationsFragment.toDomain() })
+    situations.addAll(serviceJourney.line.linesFragment.situations.map { it.situationsFragment.toDomain() })
     return situations.distinct()
 }
-
-internal fun StopPlaceDetailsQuery.Line.toDomain(): Line = Line(
-    id = lines.id,
-    name = lines.name,
-    publicCode = lines.publicCode,
-    presentation = lines.presentation?.toDomain(),
-    transportMode = lines.transportMode.toDomain(),
-)
 
 internal fun EnturLine.toDomain(): Line = Line(
     id = id,
@@ -111,11 +101,6 @@ internal fun net.testiprod.entur.apollographql.journeyplanner.type.OccupancyStat
         null -> OccupancyStatus.UNKNOWN
     }
 
-internal fun Lines.Presentation.toDomain(): Presentation = Presentation(
-    backgroundColor = this.colour.toColorInt(),
-    textColor = this.textColour.toColorInt(),
-)
-
 internal fun EnturPresentation.toDomain(): Presentation = Presentation(
     backgroundColor = this.colour.toColorInt(),
     textColor = this.textColour.toColorInt(),
@@ -124,7 +109,7 @@ internal fun EnturPresentation.toDomain(): Presentation = Presentation(
 internal fun EnturServiceJourney.toDomain(): ServiceJourney = ServiceJourney(
     id,
     directionType?.toDomain(),
-    line.toDomain(),
+    line.linesFragment.toDomain(),
 )
 
 internal fun EnturReportType?.toDomain(): ReportType = when (this) {

@@ -1,0 +1,20 @@
+fragment situationsFragment on PtSituationElement {
+    id
+    summary {
+        value
+        language
+    }
+    description {
+        value
+        language
+    }
+    advice {
+        value
+        language
+    }
+    reportType
+    validityPeriod {
+        endTime
+        startTime
+    }
+}

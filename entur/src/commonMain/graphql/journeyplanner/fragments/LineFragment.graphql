@@ -1,0 +1,13 @@
+fragment linesFragment on Line {
+    id
+    name
+    presentation {
+        colour
+        textColour
+    }
+    publicCode
+    situations {
+        ...situationsFragment
+    }
+    transportMode
+}

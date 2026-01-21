@@ -6,7 +6,7 @@ query StopPlaceDetails($stopPlaceId: String!) {
             id
             name
             lines {
-                ...lines
+                ...linesFragment
             }
             publicCode
             description
@@ -15,15 +15,4 @@ query StopPlaceDetails($stopPlaceId: String!) {
             }
         }
     }
-}
-
-fragment lines on Line {
-    id
-    name
-    presentation {
-        colour
-        textColour
-    }
-    transportMode
-    publicCode
 }

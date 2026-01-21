@@ -1,0 +1,22 @@
+fragment estimatedCallFragment on EstimatedCall {
+    destinationDisplay {
+        frontText
+    }
+    expectedDepartureTime
+    aimedDepartureTime
+    occupancyStatus
+    serviceJourney {
+        id
+        directionType
+        line {
+            ...linesFragment
+        }
+        situations {
+            ...situationsFragment
+        }
+    }
+    situations {
+        ...situationsFragment
+    }
+    realtime
+}

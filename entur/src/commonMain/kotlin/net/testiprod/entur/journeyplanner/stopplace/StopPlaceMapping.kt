@@ -25,7 +25,7 @@ internal fun StopPlaceDetailsQuery.Quay.toDomain(): Quay = Quay(
     id = id,
     name = name,
     publicCode = publicCode,
-    lines = lines.map { it.toDomain() },
+    lines = lines.map { it.linesFragment.toDomain() },
     journeyPatterns = journeyPatterns.mapNotNull { it?.toDomain() },
     estimatedCalls = emptyList(),
 )
