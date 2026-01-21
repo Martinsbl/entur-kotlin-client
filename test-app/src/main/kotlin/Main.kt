@@ -10,6 +10,9 @@ import net.testiprod.entur.journeyplanner.stopplace.filtering.LineDirectionFilte
 import net.testiprod.entur.journeyplanner.stopplace.filtering.LineFilter
 import net.testiprod.entur.journeyplanner.stopplace.models.StopPlaceQuay
 import net.testiprod.entur.journeyplanner.stopplace.service.StopPlaceService
+import net.testiprod.entur.journeyplanner.trip.api.TripApi
+import net.testiprod.entur.journeyplanner.trip.models.Location
+import net.testiprod.entur.journeyplanner.trip.models.Trip
 import net.testiprod.entur.vehicle.api.VehicleApi
 import net.testiprod.entur.vehicle.models.Vehicle
 import kotlin.time.Duration.Companion.seconds
@@ -24,13 +27,40 @@ fun main() {
         "github.com/martinsbl",
         "kotlin-entur-client",
     )
+    val tripApi = TripApi(
+        "github.com/martinsbl",
+        "kotlin-entur-client",
+    )
 
     runBlocking {
-        testApi(stopPlaceApi, vehicleApi)
+        testTripApi(tripApi)
+//        testApi(stopPlaceApi, vehicleApi)
 //        testService(stopPlaceService)
     }
 
     println("The End")
+}
+
+private suspend fun testTripApi(tripApi: TripApi) {
+    val trips = tripApi.fetchTrip(
+        Location.StopPlace("NSR:StopPlace:337"),
+        Location.StopPlace("NSR:StopPlace:11"),
+    )
+    println(trips.toPrettyTrip())
+}
+
+private fun Trip.toPrettyTrip(): String {
+    return """
+        ${this.from.name} - ${this.to.name}
+        Trip patterns:
+        ${
+        this.tripPatterns.joinToString(separator = "\n") { pattern ->
+            " - starts at ${pattern.expectedStartTime}, duration: ${pattern.duration} seconds, lines: ${pattern.lines.joinToString {
+                it.publicCode.toString()
+            }}"
+        }
+    } 
+    """.trimIndent()
 }
 
 private suspend fun testApi(

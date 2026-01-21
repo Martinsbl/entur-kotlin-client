@@ -1,0 +1,36 @@
+query Trip(
+    $from: Location!
+    $to: Location!
+    $numTripPatterns: Int
+    $dateTime: DateTime
+    $walkSpeed: Float
+    $arriveBy: Boolean
+) {
+    trip(
+        from: $from
+        to: $to
+        numTripPatterns: $numTripPatterns
+        dateTime: $dateTime
+        walkSpeed: $walkSpeed
+        arriveBy: $arriveBy
+    ) {
+        tripPatterns {
+            expectedStartTime
+            duration
+            streetDistance
+            legs {
+                mode
+                distance
+                line {
+                    ...linesFragment
+                }
+            }
+        }
+        fromPlace {
+            name
+        }
+        toPlace {
+            name
+        }
+    }
+}
