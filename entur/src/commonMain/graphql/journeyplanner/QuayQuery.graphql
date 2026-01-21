@@ -1,0 +1,15 @@
+query Quay($id: String!, $numberOfDepartures: Int, $lines: [ID]) {
+    quay(
+        id: $id
+    ) {
+        id
+        name
+        estimatedCalls(
+            includeCancelledTrips: false,
+            numberOfDepartures: $numberOfDepartures,
+            whiteListed: {lines: $lines}
+        ) {
+            ...estimatedCallFragment
+        }
+    }
+}
