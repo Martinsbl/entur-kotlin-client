@@ -4,9 +4,12 @@ import com.apollographql.apollo.api.Optional
 import net.testiprod.entur.apollographql.journeyplanner.TripQuery
 import net.testiprod.entur.apollographql.journeyplanner.type.InputCoordinates
 import net.testiprod.entur.common.toDomain
+import net.testiprod.entur.journeyplanner.trip.models.Leg
 import net.testiprod.entur.journeyplanner.trip.models.Location
+import net.testiprod.entur.journeyplanner.trip.models.Mode
 import net.testiprod.entur.journeyplanner.trip.models.Place
 import net.testiprod.entur.journeyplanner.trip.models.Trip
+import kotlin.time.Instant
 import net.testiprod.entur.apollographql.journeyplanner.TripQuery.Trip as EnturTrip
 import net.testiprod.entur.apollographql.journeyplanner.TripQuery.TripPattern as EnturTripPattern
 
@@ -18,6 +21,7 @@ internal fun Location.toEnturLocation(): net.testiprod.entur.apollographql.journ
 
         is Location.Coordinate -> {
             net.testiprod.entur.apollographql.journeyplanner.type.Location(
+                name = Optional.present(this.name),
                 coordinates = Optional.present(
                     InputCoordinates(
                         latitude = this.latitude,
@@ -36,11 +40,16 @@ internal fun EnturTrip.toDomain() = Trip(
 )
 
 internal fun EnturTripPattern.toDomain() = net.testiprod.entur.journeyplanner.trip.models.TripPattern(
-    expectedStartTime = this.expectedStartTime.toString(),
+    expectedStartTime = Instant.parse(this.expectedStartTime.toString()),
     duration = this.duration.toString().toInt(),
     streetDistance = this.streetDistance,
-    // TODO Legs
-    lines = this.legs.mapNotNull { it.line?.linesFragment?.toDomain() },
+    legs = this.legs.map { it.toDomain() },
+)
+
+internal fun TripQuery.Leg.toDomain() = Leg(
+    mode = this.mode.toDomain(),
+    distance = this.distance,
+    line = this.line?.linesFragment?.toDomain(),
 )
 
 internal fun TripQuery.ToPlace.toDomain(): Place {
@@ -53,4 +62,10 @@ internal fun TripQuery.FromPlace.toDomain(): Place {
     return Place(
         name = this.name,
     )
+}
+
+internal fun net.testiprod.entur.apollographql.journeyplanner.type.Mode.toDomain(): Mode {
+    return Mode.entries.firstOrNull {
+        it.name.equals(this.name, ignoreCase = true)
+    } ?: Mode.UNKNOWN
 }

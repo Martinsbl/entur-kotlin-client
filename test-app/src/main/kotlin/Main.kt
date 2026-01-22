@@ -55,9 +55,11 @@ private fun Trip.toPrettyTrip(): String {
         Trip patterns:
         ${
         this.tripPatterns.joinToString(separator = "\n") { pattern ->
-            " - starts at ${pattern.expectedStartTime}, duration: ${pattern.duration} seconds, lines: ${pattern.lines.joinToString {
-                it.publicCode.toString()
-            }}"
+            " - starts at ${pattern.expectedStartTime}, duration: ${pattern.duration} seconds, lines: ${
+                pattern.legs.joinToString {
+                    it.line?.publicCode.toString()
+                }
+            }"
         }
     } 
     """.trimIndent()
