@@ -9,6 +9,7 @@ import net.testiprod.entur.journeyplanner.trip.models.Location
 import net.testiprod.entur.journeyplanner.trip.models.Mode
 import net.testiprod.entur.journeyplanner.trip.models.Place
 import net.testiprod.entur.journeyplanner.trip.models.Trip
+import kotlin.time.Duration.Companion.seconds
 import kotlin.time.Instant
 import net.testiprod.entur.apollographql.journeyplanner.TripQuery.Trip as EnturTrip
 import net.testiprod.entur.apollographql.journeyplanner.TripQuery.TripPattern as EnturTripPattern
@@ -41,7 +42,7 @@ internal fun EnturTrip.toDomain() = Trip(
 
 internal fun EnturTripPattern.toDomain() = net.testiprod.entur.journeyplanner.trip.models.TripPattern(
     expectedStartTime = Instant.parse(this.expectedStartTime.toString()),
-    duration = this.duration.toString().toInt(),
+    duration = (this.duration as? Int)?.seconds,
     streetDistance = this.streetDistance,
     legs = this.legs.map { it.toDomain() },
 )
@@ -49,6 +50,7 @@ internal fun EnturTripPattern.toDomain() = net.testiprod.entur.journeyplanner.tr
 internal fun TripQuery.Leg.toDomain() = Leg(
     mode = this.mode.toDomain(),
     distance = this.distance,
+    duration = (this.duration as Int).seconds,
     line = this.line?.linesFragment?.toDomain(),
 )
 

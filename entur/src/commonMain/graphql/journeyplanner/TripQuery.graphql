@@ -21,6 +21,7 @@ query Trip(
             legs {
                 mode
                 distance
+                duration
                 line {
                     ...linesFragment
                 }

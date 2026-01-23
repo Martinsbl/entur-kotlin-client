@@ -4,6 +4,7 @@ import kotlinx.coroutines.runBlocking
 import net.testiprod.entur.common.OSLO_BUSSTERMINAL
 import net.testiprod.entur.common.OSLO_S
 import net.testiprod.entur.common.models.DirectionType
+import net.testiprod.entur.common.models.Line
 import net.testiprod.entur.http.EnturResult
 import net.testiprod.entur.journeyplanner.stopplace.api.StopPlaceApi
 import net.testiprod.entur.journeyplanner.stopplace.filtering.LineDirectionFilter
@@ -11,6 +12,7 @@ import net.testiprod.entur.journeyplanner.stopplace.filtering.LineFilter
 import net.testiprod.entur.journeyplanner.stopplace.models.StopPlaceQuay
 import net.testiprod.entur.journeyplanner.stopplace.service.StopPlaceService
 import net.testiprod.entur.journeyplanner.trip.api.TripApi
+import net.testiprod.entur.journeyplanner.trip.models.Leg
 import net.testiprod.entur.journeyplanner.trip.models.Location
 import net.testiprod.entur.journeyplanner.trip.models.Trip
 import net.testiprod.entur.vehicle.api.VehicleApi
@@ -55,14 +57,20 @@ private fun Trip.toPrettyTrip(): String {
         Trip patterns:
         ${
         this.tripPatterns.joinToString(separator = "\n") { pattern ->
-            " - starts at ${pattern.expectedStartTime}, duration: ${pattern.duration} seconds, lines: ${
-                pattern.legs.joinToString {
-                    it.line?.publicCode.toString()
-                }
+            " - starts at ${pattern.expectedStartTime}, duration: ${pattern.duration}, legs: ${
+                pattern.legs.joinToString { it.toPrettyLeg() }
             }"
         }
     } 
     """.trimIndent()
+}
+
+private fun Leg.toPrettyLeg(): String {
+    return "${this.line?.toPrettyLine() ?: "walk"} ${this.distance} meters (${this.duration})"
+}
+
+private fun Line.toPrettyLine(): String {
+    return "${this.transportMode.name.lowercase().capitalize()} ${this.publicCode}"
 }
 
 private suspend fun testApi(

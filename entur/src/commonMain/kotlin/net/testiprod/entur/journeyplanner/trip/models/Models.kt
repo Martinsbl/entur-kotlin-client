@@ -1,6 +1,7 @@
 package net.testiprod.entur.journeyplanner.trip.models
 
 import net.testiprod.entur.common.models.Line
+import kotlin.time.Duration
 import kotlin.time.Instant
 
 data class Trip(
@@ -13,7 +14,7 @@ data class Place(val name: String?)
 
 data class TripPattern(
     val expectedStartTime: Instant,
-    val duration: Int?,
+    val duration: Duration?,
     val streetDistance: Double?,
     val legs: List<Leg>,
 )
@@ -21,6 +22,7 @@ data class TripPattern(
 data class Leg(
     val mode: Mode,
     val distance: Double?,
+    val duration: Duration,
     val line: Line?,
 )
 
