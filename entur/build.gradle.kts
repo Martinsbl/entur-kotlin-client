@@ -51,12 +51,11 @@ kotlin {
 
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
             implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.7.1")
-
-            implementation("ch.qos.logback:logback-classic:1.5.24")
         }
 
         jvmMain.dependencies {
             implementation("io.ktor:ktor-client-cio:$ktorVersion")
+            implementation("ch.qos.logback:logback-classic:1.5.24")
         }
 
         androidMain.dependencies {
