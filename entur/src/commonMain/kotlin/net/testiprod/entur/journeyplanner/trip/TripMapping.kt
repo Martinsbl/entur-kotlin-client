@@ -56,13 +56,13 @@ internal fun TripQuery.Leg.toDomain() = Leg(
 
 internal fun TripQuery.ToPlace.toDomain(): Place {
     return Place(
-        name = this.name,
+        name = this.placeFragment.name,
     )
 }
 
 internal fun TripQuery.FromPlace.toDomain(): Place {
     return Place(
-        name = this.name,
+        name = this.placeFragment.name,
     )
 }
 

@@ -1,0 +1,16 @@
+fragment placeFragment on Place {
+    name
+    latitude
+    longitude
+    quay {
+        ...quayFragment
+    }
+}
+
+fragment quayFragment on Quay {
+    name
+    description
+    latitude
+    longitude
+    publicCode
+}

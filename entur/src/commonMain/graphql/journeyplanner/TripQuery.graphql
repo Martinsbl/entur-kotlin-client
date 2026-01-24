@@ -15,23 +15,43 @@ query Trip(
         arriveBy: $arriveBy
     ) {
         tripPatterns {
-            expectedStartTime
+            aimedEndTime
+            aimedStartTime
+            distance
             duration
+            expectedEndTime
+            expectedStartTime
             streetDistance
+            waitingTime
+            walkTime
             legs {
-                mode
+                authority {
+                    name
+                }
                 distance
                 duration
                 line {
                     ...linesFragment
                 }
+                mode
+                operator {
+                    name
+                }
+                pointsOnLink {
+                    distance
+                    length
+                    points
+                }
+                realtime
+                ride
+                transportSubmode
             }
         }
         fromPlace {
-            name
+            ...placeFragment
         }
         toPlace {
-            name
+            ...placeFragment
         }
     }
 }
