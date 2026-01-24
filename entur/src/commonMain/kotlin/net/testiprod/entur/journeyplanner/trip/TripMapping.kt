@@ -58,9 +58,13 @@ internal fun EnturTripPattern.toDomain() = net.testiprod.entur.journeyplanner.tr
 )
 
 internal fun TripQuery.Leg.toDomain() = Leg(
+    aimedEndTime = Instant.parse(this.aimedEndTime.toString()),
+    aimedStartTime = Instant.parse(this.aimedStartTime.toString()),
     authority = this.authority?.let { Authority(it.name) },
     distance = this.distance,
     duration = (this.duration as Int).seconds,
+    expectedEndTime = Instant.parse(this.expectedEndTime.toString()),
+    expectedStartTime = Instant.parse(this.expectedStartTime.toString()),
     fromPlace = this.fromPlace.placeFragment.toDomain(),
     line = this.line?.linesFragment?.toDomain(),
     mode = this.mode.toDomain(),

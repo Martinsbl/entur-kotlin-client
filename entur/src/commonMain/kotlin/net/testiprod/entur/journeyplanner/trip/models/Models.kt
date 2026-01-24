@@ -38,9 +38,13 @@ data class TripPattern(
 )
 
 data class Leg(
+    val aimedEndTime: Instant,
+    val aimedStartTime: Instant,
     val authority: Authority?,
     val distance: Double?,
     val duration: Duration,
+    val expectedEndTime: Instant,
+    val expectedStartTime: Instant,
     val fromPlace: Place,
     val line: Line?,
     val mode: Mode,

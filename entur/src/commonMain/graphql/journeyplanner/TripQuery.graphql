@@ -30,11 +30,15 @@ query Trip(
             waitingTime
             walkTime
             legs {
+                aimedEndTime
+                aimedStartTime
                 authority {
                     name
                 }
                 distance
                 duration
+                expectedEndTime
+                expectedStartTime
                 fromPlace {
                     ...placeFragment
                 }
