@@ -10,21 +10,51 @@ data class Trip(
     val tripPatterns: List<TripPattern>,
 )
 
-data class Place(val name: String?)
+data class Place(
+    val name: String?,
+    val latitude: Double,
+    val longitude: Double,
+    val quay: Quay?,
+)
+
+data class Quay(
+    val name: String,
+    val description: String?,
+    val latitude: Double?,
+    val longitude: Double?,
+    val publicCode: String?,
+)
 
 data class TripPattern(
-    val expectedStartTime: Instant,
+    val aimedEndTime: Instant,
+    val aimedStartTime: Instant,
     val duration: Duration?,
+    val expectedEndTime: Instant,
+    val expectedStartTime: Instant,
     val streetDistance: Double?,
+    val waitingTime: Duration?,
+    val walkTime: Duration?,
     val legs: List<Leg>,
 )
 
 data class Leg(
-    val mode: Mode,
+    val authority: Authority?,
     val distance: Double?,
     val duration: Duration,
+    val fromPlace: Place,
     val line: Line?,
+    val mode: Mode,
+    val operator: Operator?,
+//    val pointsOnLink: PointsOnLink, TODO
+    val realTime: Boolean,
+    val ride: Boolean,
+    val toPlace: Place,
+    val transportSubMode: TransportSubMode?,
 )
+
+data class Authority(val name: String)
+
+data class Operator(val name: String)
 
 sealed class Location {
 

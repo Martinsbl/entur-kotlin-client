@@ -14,10 +14,15 @@ query Trip(
         walkSpeed: $walkSpeed
         arriveBy: $arriveBy
     ) {
+        fromPlace {
+            ...placeFragment
+        }
+        toPlace {
+            ...placeFragment
+        }
         tripPatterns {
             aimedEndTime
             aimedStartTime
-            distance
             duration
             expectedEndTime
             expectedStartTime
@@ -30,6 +35,9 @@ query Trip(
                 }
                 distance
                 duration
+                fromPlace {
+                    ...placeFragment
+                }
                 line {
                     ...linesFragment
                 }
@@ -44,14 +52,11 @@ query Trip(
                 }
                 realtime
                 ride
+                toPlace {
+                    ...placeFragment
+                }
                 transportSubmode
             }
-        }
-        fromPlace {
-            ...placeFragment
-        }
-        toPlace {
-            ...placeFragment
         }
     }
 }

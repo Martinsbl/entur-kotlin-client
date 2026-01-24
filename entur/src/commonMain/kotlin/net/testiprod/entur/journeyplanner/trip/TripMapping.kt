@@ -2,12 +2,17 @@ package net.testiprod.entur.journeyplanner.trip
 
 import com.apollographql.apollo.api.Optional
 import net.testiprod.entur.apollographql.journeyplanner.TripQuery
+import net.testiprod.entur.apollographql.journeyplanner.fragment.PlaceFragment
 import net.testiprod.entur.apollographql.journeyplanner.type.InputCoordinates
 import net.testiprod.entur.common.toDomain
+import net.testiprod.entur.journeyplanner.trip.models.Authority
 import net.testiprod.entur.journeyplanner.trip.models.Leg
 import net.testiprod.entur.journeyplanner.trip.models.Location
 import net.testiprod.entur.journeyplanner.trip.models.Mode
+import net.testiprod.entur.journeyplanner.trip.models.Operator
 import net.testiprod.entur.journeyplanner.trip.models.Place
+import net.testiprod.entur.journeyplanner.trip.models.Quay
+import net.testiprod.entur.journeyplanner.trip.models.TransportSubMode
 import net.testiprod.entur.journeyplanner.trip.models.Trip
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.Instant
@@ -35,34 +40,51 @@ internal fun Location.toEnturLocation(): net.testiprod.entur.apollographql.journ
 }
 
 internal fun EnturTrip.toDomain() = Trip(
-    to = this.toPlace.toDomain(),
-    from = this.fromPlace.toDomain(),
+    to = this.toPlace.placeFragment.toDomain(),
+    from = this.fromPlace.placeFragment.toDomain(),
     tripPatterns = this.tripPatterns.map { it.toDomain() },
 )
 
 internal fun EnturTripPattern.toDomain() = net.testiprod.entur.journeyplanner.trip.models.TripPattern(
+    aimedEndTime = Instant.parse(this.aimedEndTime.toString()),
+    aimedStartTime = Instant.parse(this.aimedStartTime.toString()),
+    duration = (this.duration as Int?)?.seconds,
+    expectedEndTime = Instant.parse(this.expectedEndTime.toString()),
     expectedStartTime = Instant.parse(this.expectedStartTime.toString()),
-    duration = (this.duration as? Int)?.seconds,
     streetDistance = this.streetDistance,
     legs = this.legs.map { it.toDomain() },
+    waitingTime = (this.waitingTime as Int?)?.seconds,
+    walkTime = (this.walkTime as Int?)?.seconds,
 )
 
 internal fun TripQuery.Leg.toDomain() = Leg(
-    mode = this.mode.toDomain(),
+    authority = this.authority?.let { Authority(it.name) },
     distance = this.distance,
     duration = (this.duration as Int).seconds,
+    fromPlace = this.fromPlace.placeFragment.toDomain(),
     line = this.line?.linesFragment?.toDomain(),
+    mode = this.mode.toDomain(),
+    operator = this.operator?.let { Operator(it.name) },
+    realTime = this.realtime,
+    ride = this.ride,
+    toPlace = this.toPlace.placeFragment.toDomain(),
+    transportSubMode = this.transportSubmode?.let { TransportSubMode.fromValue(it.rawValue) },
 )
 
-internal fun TripQuery.ToPlace.toDomain(): Place {
-    return Place(
-        name = this.placeFragment.name,
-    )
-}
+internal fun PlaceFragment.toDomain() = Place(
+    name = this.name,
+    latitude = this.latitude,
+    longitude = this.longitude,
+    quay = this.quay?.toDomain(),
+)
 
-internal fun TripQuery.FromPlace.toDomain(): Place {
-    return Place(
-        name = this.placeFragment.name,
+internal fun PlaceFragment.Quay.toDomain(): Quay {
+    return Quay(
+        name = this.quayFragment.name,
+        description = this.quayFragment.description,
+        latitude = this.quayFragment.latitude,
+        longitude = this.quayFragment.longitude,
+        publicCode = this.quayFragment.publicCode,
     )
 }
 
