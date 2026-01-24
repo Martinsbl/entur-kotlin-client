@@ -10,7 +10,7 @@ fun getBrakarPresentations(publicCode: String?) = when (publicCode) {
     "2", "14", "15" -> Presentation(0xFFda3832.toInt(), WHITE)
     "3" -> Presentation(0xFFe47f3a.toInt(), WHITE)
     "4", "5" -> Presentation(0xFF006fb6.toInt(), WHITE)
-    "24" -> Presentation(0xFF48bff0.toInt(), BLACK)
+    "16", "22", "24" -> Presentation(0xFF48bff0.toInt(), BLACK)
     "52" -> Presentation(0xFF2ca958.toInt(), WHITE)
     "71" -> Presentation(0xFFadcc51.toInt(), BLACK)
     "100", "101", "73", "261", "251", "61", "63" -> Presentation(0xFF822c88.toInt(), WHITE)
