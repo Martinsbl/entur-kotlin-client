@@ -10,4 +10,5 @@ fragment linesFragment on Line {
         ...situationsFragment
     }
     transportMode
+    transportSubmode
 }

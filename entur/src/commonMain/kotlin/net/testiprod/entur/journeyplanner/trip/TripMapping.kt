@@ -4,6 +4,7 @@ import com.apollographql.apollo.api.Optional
 import net.testiprod.entur.apollographql.journeyplanner.TripQuery
 import net.testiprod.entur.apollographql.journeyplanner.fragment.PlaceFragment
 import net.testiprod.entur.apollographql.journeyplanner.type.InputCoordinates
+import net.testiprod.entur.common.models.DestinationDisplay
 import net.testiprod.entur.common.toDomain
 import net.testiprod.entur.journeyplanner.trip.models.Authority
 import net.testiprod.entur.journeyplanner.trip.models.Leg
@@ -14,6 +15,7 @@ import net.testiprod.entur.journeyplanner.trip.models.Place
 import net.testiprod.entur.journeyplanner.trip.models.Quay
 import net.testiprod.entur.journeyplanner.trip.models.TransportSubMode
 import net.testiprod.entur.journeyplanner.trip.models.Trip
+import net.testiprod.entur.journeyplanner.trip.models.TripEstimatedCall
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.Instant
 import net.testiprod.entur.apollographql.journeyplanner.TripQuery.Trip as EnturTrip
@@ -71,8 +73,13 @@ internal fun TripQuery.Leg.toDomain() = Leg(
     operator = this.operator?.let { Operator(it.name) },
     realTime = this.realtime,
     ride = this.ride,
+    toEstimatedCall = this.toEstimatedCall?.toDomain(),
     toPlace = this.toPlace.placeFragment.toDomain(),
     transportSubMode = this.transportSubmode?.let { TransportSubMode.fromValue(it.rawValue) },
+)
+
+internal fun TripQuery.ToEstimatedCall.toDomain() = TripEstimatedCall(
+    destinationDisplay = DestinationDisplay(this.destinationDisplay?.frontText),
 )
 
 internal fun PlaceFragment.toDomain() = Place(

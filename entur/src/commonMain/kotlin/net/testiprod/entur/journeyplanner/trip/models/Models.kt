@@ -1,5 +1,6 @@
 package net.testiprod.entur.journeyplanner.trip.models
 
+import net.testiprod.entur.common.models.DestinationDisplay
 import net.testiprod.entur.common.models.Line
 import kotlin.time.Duration
 import kotlin.time.Instant
@@ -52,6 +53,7 @@ data class Leg(
 //    val pointsOnLink: PointsOnLink, TODO
     val realTime: Boolean,
     val ride: Boolean,
+    val toEstimatedCall: TripEstimatedCall?,
     val toPlace: Place,
     val transportSubMode: TransportSubMode?,
 )
@@ -59,6 +61,12 @@ data class Leg(
 data class Authority(val name: String)
 
 data class Operator(val name: String)
+
+/**
+ * Minimal EstimatedCall for Trip legs, not to be confused with
+ * the full [net.testiprod.entur.common.models.EstimatedCall]
+ */
+data class TripEstimatedCall(val destinationDisplay: DestinationDisplay)
 
 sealed class Location {
 

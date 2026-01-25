@@ -41,6 +41,7 @@ import net.testiprod.entur.common.models.TransportMode.TAXI
 import net.testiprod.entur.common.models.TransportMode.TRAM
 import net.testiprod.entur.common.models.TransportMode.TROLLEYBUS
 import net.testiprod.entur.common.models.TransportMode.WATER
+import net.testiprod.entur.journeyplanner.trip.models.TransportSubMode
 import net.testiprod.entur.apollographql.journeyplanner.StopPlaceDetailsQuery.JourneyPattern as EnturJourneyPattern
 import net.testiprod.entur.apollographql.journeyplanner.fragment.EstimatedCallFragment.ServiceJourney as EnturServiceJourney
 import net.testiprod.entur.apollographql.journeyplanner.fragment.LinesFragment as EnturLine
@@ -85,6 +86,7 @@ internal fun EnturLine.toDomain(): Line = Line(
     publicCode = publicCode,
     presentation = presentation?.toDomain(),
     transportMode = transportMode.toDomain(),
+    transportSubMode = transportSubmode?.let { TransportSubMode.fromValue(it.rawValue) },
 )
 
 internal fun net.testiprod.entur.apollographql.journeyplanner.type.OccupancyStatus?.toDomain(): OccupancyStatus? =
@@ -115,8 +117,8 @@ internal fun EnturServiceJourney.toDomain(): ServiceJourney = ServiceJourney(
 internal fun EnturReportType?.toDomain(): ReportType = when (this) {
     EnturReportType.general -> GENERAL
     EnturReportType.incident -> INCIDENT
-    EnturReportType.UNKNOWN__ -> Situation.ReportType.UNKNOWN
-    null -> Situation.ReportType.UNKNOWN
+    EnturReportType.UNKNOWN__ -> ReportType.UNKNOWN
+    null -> ReportType.UNKNOWN
 }
 
 internal fun SituationsFragment.toDomain(): Situation = Situation(
@@ -144,8 +146,8 @@ internal fun EnturTransportMode?.toDomain(): TransportMode {
         EnturTransportMode.trolleybus -> TROLLEYBUS
         EnturTransportMode.monorail -> MONORAIL
         EnturTransportMode.coach -> COACH
-        EnturTransportMode.unknown -> net.testiprod.entur.common.models.TransportMode.UNKNOWN
-        EnturTransportMode.UNKNOWN__ -> net.testiprod.entur.common.models.TransportMode.UNKNOWN
-        null -> net.testiprod.entur.common.models.TransportMode.UNKNOWN
+        EnturTransportMode.unknown -> TransportMode.UNKNOWN
+        EnturTransportMode.UNKNOWN__ -> TransportMode.UNKNOWN
+        null -> TransportMode.UNKNOWN
     }
 }

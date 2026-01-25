@@ -56,6 +56,11 @@ query Trip(
                 }
                 realtime
                 ride
+                toEstimatedCall {
+                    destinationDisplay {
+                        frontText
+                    }
+                }
                 toPlace {
                     ...placeFragment
                 }
