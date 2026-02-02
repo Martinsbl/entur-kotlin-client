@@ -4,6 +4,7 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import net.testiprod.entur.utils.calculateRealTime
+import net.testiprod.entur.utils.toDateString
 import net.testiprod.entur.utils.toHourMinuteString
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -23,6 +24,20 @@ class TimeFormattingTest {
         val localDateTime = LocalDateTime(2024, 1, 15, 14, 45, 0)
         val instant = localDateTime.toInstant(TimeZone.currentSystemDefault())
         assertEquals("14:45", instant.toHourMinuteString())
+    }
+
+    @Test
+    fun `toDateString formats date correctly`() {
+        val localDateTime = LocalDateTime(2024, 1, 5, 10, 0, 0)
+        val instant = localDateTime.toInstant(TimeZone.currentSystemDefault())
+        assertEquals("2024.01.05", instant.toDateString())
+    }
+
+    @Test
+    fun `toDateString formats leap year date correctly`() {
+        val localDateTime = LocalDateTime(2024, 2, 29, 23, 59, 59)
+        val instant = localDateTime.toInstant(TimeZone.currentSystemDefault())
+        assertEquals("2024.02.29", instant.toDateString())
     }
 
     @Test

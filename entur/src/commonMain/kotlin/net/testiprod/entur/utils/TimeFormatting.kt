@@ -1,6 +1,7 @@
 package net.testiprod.entur.utils
 
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.number
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
 import kotlin.time.Instant
@@ -13,6 +14,17 @@ fun Instant.toHourMinuteString(): String {
     val hour = localDateTime.hour.toString().padStart(2, '0')
     val minute = localDateTime.minute.toString().padStart(2, '0')
     return "$hour:$minute"
+}
+
+/**
+ * Format an Instant to a String in the format "YYYY.MM.DD".
+ */
+fun Instant.toDateString(): String {
+    val localDateTime = this.toLocalDateTime(TimeZone.currentSystemDefault())
+    val year = localDateTime.year
+    val month = localDateTime.month.number.toString().padStart(2, '0')
+    val day = localDateTime.day.toString().padStart(2, '0')
+    return "$year.$month.$day"
 }
 
 fun Instant.calculateRealTime(now: Instant = Clock.System.now()): String {
