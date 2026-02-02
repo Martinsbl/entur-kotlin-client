@@ -85,6 +85,7 @@ internal fun EnturLine.toDomain(): Line = Line(
     name = name,
     publicCode = publicCode,
     presentation = presentation?.toDomain(),
+    situations = situations.map { it.situationsFragment.toDomain() },
     transportMode = transportMode.toDomain(),
     transportSubMode = transportSubmode?.let { TransportSubMode.fromValue(it.rawValue) },
 )

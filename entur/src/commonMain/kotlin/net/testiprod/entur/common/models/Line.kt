@@ -9,6 +9,7 @@ data class Line(
     val name: String?,
     val publicCode: String?,
     val presentation: Presentation?,
+    val situations: List<Situation>,
     val transportMode: TransportMode,
     val transportSubMode: TransportSubMode?,
 )
