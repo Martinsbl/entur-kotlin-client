@@ -3,8 +3,10 @@ package net.testiprod.entur.journeyplanner.trip
 import com.apollographql.apollo.api.Optional
 import net.testiprod.entur.apollographql.journeyplanner.TripQuery
 import net.testiprod.entur.apollographql.journeyplanner.fragment.PlaceFragment
+import net.testiprod.entur.apollographql.journeyplanner.fragment.ServiceJourneyFragment
 import net.testiprod.entur.apollographql.journeyplanner.type.InputCoordinates
 import net.testiprod.entur.common.models.DestinationDisplay
+import net.testiprod.entur.common.models.ServiceJourney
 import net.testiprod.entur.common.toDomain
 import net.testiprod.entur.journeyplanner.trip.models.Authority
 import net.testiprod.entur.journeyplanner.trip.models.Leg
@@ -68,14 +70,21 @@ internal fun TripQuery.Leg.toDomain() = Leg(
     expectedEndTime = Instant.parse(this.expectedEndTime.toString()),
     expectedStartTime = Instant.parse(this.expectedStartTime.toString()),
     fromPlace = this.fromPlace.placeFragment.toDomain(),
-    line = this.line?.linesFragment?.toDomain(),
     mode = this.mode.toDomain(),
     operator = this.operator?.let { Operator(it.name) },
     realTime = this.realtime,
     ride = this.ride,
+    serviceJourney = this.serviceJourney?.serviceJourneyFragment?.toDomain(),
     toEstimatedCall = this.toEstimatedCall?.toDomain(),
     toPlace = this.toPlace.placeFragment.toDomain(),
     transportSubMode = this.transportSubmode?.let { TransportSubMode.fromValue(it.rawValue) },
+)
+
+internal fun ServiceJourneyFragment.toDomain() = ServiceJourney(
+    id = this.id,
+    directionType = this.directionType?.toDomain(),
+    line = this.line.lineFragment.toDomain(),
+    situations = this.situations.map { it.situationsFragment.toDomain() },
 )
 
 internal fun TripQuery.ToEstimatedCall.toDomain() = TripEstimatedCall(

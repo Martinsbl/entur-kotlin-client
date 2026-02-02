@@ -44,8 +44,8 @@ import net.testiprod.entur.common.models.TransportMode.WATER
 import net.testiprod.entur.journeyplanner.trip.models.TransportSubMode
 import net.testiprod.entur.apollographql.journeyplanner.StopPlaceDetailsQuery.JourneyPattern as EnturJourneyPattern
 import net.testiprod.entur.apollographql.journeyplanner.fragment.EstimatedCallFragment.ServiceJourney as EnturServiceJourney
-import net.testiprod.entur.apollographql.journeyplanner.fragment.LinesFragment as EnturLine
-import net.testiprod.entur.apollographql.journeyplanner.fragment.LinesFragment.Presentation as EnturPresentation
+import net.testiprod.entur.apollographql.journeyplanner.fragment.LineFragment as EnturLine
+import net.testiprod.entur.apollographql.journeyplanner.fragment.LineFragment.Presentation as EnturPresentation
 import net.testiprod.entur.apollographql.journeyplanner.type.DirectionType as EnturDirectionType
 import net.testiprod.entur.apollographql.journeyplanner.type.ReportType as EnturReportType
 import net.testiprod.entur.apollographql.journeyplanner.type.TransportMode as EnturTransportMode
@@ -76,7 +76,7 @@ internal fun EstimatedCallFragment.toDomain(): EstimatedCall = EstimatedCall(
 private fun EstimatedCallFragment.getAllSituations(): List<Situation> {
     val situations = situations.map { it.situationsFragment.toDomain() }.toMutableList()
     situations.addAll(serviceJourney.situations.map { it.situationsFragment.toDomain() })
-    situations.addAll(serviceJourney.line.linesFragment.situations.map { it.situationsFragment.toDomain() })
+    situations.addAll(serviceJourney.line.lineFragment.situations.map { it.situationsFragment.toDomain() })
     return situations.distinct()
 }
 
@@ -109,9 +109,10 @@ internal fun EnturPresentation.toDomain(): Presentation = Presentation(
 )
 
 internal fun EnturServiceJourney.toDomain(): ServiceJourney = ServiceJourney(
-    id,
-    directionType?.toDomain(),
-    line.linesFragment.toDomain(),
+    id = id,
+    directionType = directionType?.toDomain(),
+    line = line.lineFragment.toDomain(),
+    situations = situations.map { it.situationsFragment.toDomain() },
 )
 
 internal fun EnturReportType?.toDomain(): ReportType = when (this) {

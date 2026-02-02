@@ -1,7 +1,7 @@
 package net.testiprod.entur.journeyplanner.trip.models
 
 import net.testiprod.entur.common.models.DestinationDisplay
-import net.testiprod.entur.common.models.Line
+import net.testiprod.entur.common.models.ServiceJourney
 import kotlin.time.Duration
 import kotlin.time.Instant
 
@@ -47,12 +47,12 @@ data class Leg(
     val expectedEndTime: Instant,
     val expectedStartTime: Instant,
     val fromPlace: Place,
-    val line: Line?,
     val mode: Mode,
     val operator: Operator?,
 //    val pointsOnLink: PointsOnLink, TODO
     val realTime: Boolean,
     val ride: Boolean,
+    val serviceJourney: ServiceJourney?,
     val toEstimatedCall: TripEstimatedCall?,
     val toPlace: Place,
     val transportSubMode: TransportSubMode?,

@@ -7,4 +7,5 @@ data class ServiceJourney(
     val id: String,
     val directionType: DirectionType?,
     val line: Line,
-) 
+    val situations: List<Situation>,
+)

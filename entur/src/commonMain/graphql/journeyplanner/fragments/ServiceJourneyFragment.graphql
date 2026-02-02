@@ -1,0 +1,10 @@
+fragment serviceJourneyFragment on ServiceJourney {
+    id
+    directionType
+    line {
+        ...lineFragment
+    }
+    situations {
+        ...situationsFragment
+    }
+}

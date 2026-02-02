@@ -66,7 +66,7 @@ private fun Trip.toPrettyTrip(): String {
 }
 
 private fun Leg.toPrettyLeg(): String {
-    return "${this.line?.toPrettyLine() ?: "walk"} ${this.distance} meters (${this.duration})"
+    return "${this.serviceJourney?.line?.toPrettyLine() ?: "walk"} ${this.distance} meters (${this.duration})"
 }
 
 private fun Line.toPrettyLine(): String {

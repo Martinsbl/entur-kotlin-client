@@ -1,4 +1,4 @@
-fragment linesFragment on Line {
+fragment lineFragment on Line {
     id
     name
     presentation {

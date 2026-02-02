@@ -42,9 +42,6 @@ query Trip(
                 fromPlace {
                     ...placeFragment
                 }
-                line {
-                    ...linesFragment
-                }
                 mode
                 operator {
                     name
@@ -56,6 +53,9 @@ query Trip(
                 }
                 realtime
                 ride
+                serviceJourney {
+                    ...serviceJourneyFragment
+                }
                 toEstimatedCall {
                     destinationDisplay {
                         frontText
