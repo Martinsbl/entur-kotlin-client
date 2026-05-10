@@ -42,13 +42,13 @@ class VehicleApi(private val vehicleClient: ApolloClient) {
     ): Flow<List<Vehicle>> {
         return vehicleClient.subscription(VehiclesSubscription(serviceJourneyId))
             .toFlow()
-            .retryWhen { throwable, attempt ->
-                onRetry.invoke(throwable, attempt)
-                delay(attempt * 1000)
-                true
-            }
             .mapNotNull {
                 mapSubscriptionResponse(it)
+            }
+            .retryWhen { throwable, attempt ->
+                onRetry.invoke(throwable, attempt)
+                delay(attempt * 2000)
+                true
             }
     }
 
