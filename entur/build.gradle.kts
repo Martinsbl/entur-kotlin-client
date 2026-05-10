@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "net.testiprod.entur"
-version = "0.2.0-SNAPSHOT"
+version = "0.2.1-SNAPSHOT"
 
 android {
     namespace = "net.testiprod.entur"
@@ -42,7 +42,7 @@ kotlin {
         val coroutinesVersion = "1.10.2"
         commonMain.dependencies {
             implementation("com.apollographql.ktor:apollo-engine-ktor:0.1.1")
-            implementation("com.apollographql.apollo:apollo-runtime:4.3.3")
+            implementation("com.apollographql.apollo:apollo-runtime:4.4.1")
 
             implementation("io.ktor:ktor-client-core:$ktorVersion")
             implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
@@ -76,8 +76,8 @@ kotlin {
 
 /**
  * To generate/update schemas, use command:
- * .\gradlew entur:downloadApolloSchema --endpoint="https://api.entur.io/journey-planner/v3/graphql" --schema="entur/src/main/graphql/journeyplanner/schema.json"
- * .\gradlew entur:downloadApolloSchema --endpoint="https://api.entur.io/realtime/v1/vehicles/graphql" --schema="entur/src/main/graphql/vehiclepositions/schema.json"
+ * .\gradlew entur:downloadApolloSchema --endpoint="https://api.entur.io/journey-planner/v3/graphql" --schema="entur/src/commonMain/graphql/journeyplanner/schema.json"
+ * .\gradlew entur:downloadApolloSchema --endpoint="https://api.entur.io/realtime/v2/vehicles/graphql" --schema="entur/src/commonMain/graphql/vehiclepositions/schema.json"
  *
  */
 apollo {
