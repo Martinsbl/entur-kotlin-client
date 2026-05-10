@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
+import kotlinx.coroutines.flow.onEach
 import net.testiprod.entur.http.EnturResult
 import net.testiprod.entur.vehicle.api.VehicleApi
 import net.testiprod.entur.vehicle.models.Vehicle
@@ -17,12 +18,9 @@ class VehicleService(
     private val vehicleTimeout: Long,
 ) : IVehicleService {
 
-    override fun getVehicleFlow(
-        codeSpaceId: String?,
-        lineRef: String?,
-    ): Flow<List<Vehicle>> {
+    override fun getVehicleFlow(serviceJourneyId: String): Flow<List<Vehicle>> {
         val initialQuery = flow {
-            val response = vehicleApi.fetchVehicles(codeSpaceId, lineRef)
+            val response = vehicleApi.fetchVehicles(serviceJourneyId)
             when (response) {
                 is EnturResult.Success -> {
                     emit(response.data)
@@ -33,8 +31,7 @@ class VehicleService(
                 }
             }
         }
-        val subscription =
-            vehicleApi.subscribeToVehicleUpdates(codeSpaceId, lineRef, ::onError)
+        val subscription = vehicleApi.subscribeToVehicleUpdates(serviceJourneyId, ::onError)
         return merge(initialQuery, subscription)
             .flowOn(Dispatchers.Default)
             .filter { it.isNotEmpty() }
@@ -48,6 +45,7 @@ class VehicleService(
         attempt: Long?,
     ) {
         // TODO
+        println("Error fetching vehicle data. ${throwable?.message}")
         throwable?.printStackTrace()
     }
 

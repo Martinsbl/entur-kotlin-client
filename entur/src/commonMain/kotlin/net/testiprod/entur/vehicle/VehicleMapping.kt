@@ -2,20 +2,20 @@ package net.testiprod.entur.vehicle
 
 import net.testiprod.entur.apollographql.vehiclepositions.VehiclesQuery
 import net.testiprod.entur.apollographql.vehiclepositions.VehiclesSubscription
-import net.testiprod.entur.common.StopMonitorUtils
 import net.testiprod.entur.common.exceptions.StopMonitorParseException
 import net.testiprod.entur.common.models.OccupancyStatus
 import net.testiprod.entur.vehicle.models.Location
 import net.testiprod.entur.vehicle.models.Vehicle
+import kotlin.time.Instant
 
 internal fun VehiclesSubscription.Vehicle.toDomain(): Vehicle {
     try {
         return Vehicle(
-            serviceJourney?.id as String,
+            serviceJourney!!.id,
             line?.lineRef,
             line?.publicCode,
             line?.lineName,
-            StopMonitorUtils.parseDate(lastUpdated as String),
+            Instant.fromEpochSeconds(lastUpdatedEpochSecond!!.toLong()),
             delay?.toInt(),
             destinationName,
             bearing,
@@ -26,7 +26,7 @@ internal fun VehiclesSubscription.Vehicle.toDomain(): Vehicle {
         )
     } catch (e: Exception) {
         throw StopMonitorParseException(
-            "Failed to parse $this. serviceJourney=$serviceJourney",
+            "Failed to parse $this.",
             e,
         )
     }
@@ -46,6 +46,8 @@ internal fun net.testiprod.entur.apollographql.vehiclepositions.type.OccupancySt
         net.testiprod.entur.apollographql.vehiclepositions.type.OccupancyStatus.noData -> null
         net.testiprod.entur.apollographql.vehiclepositions.type.OccupancyStatus.notAcceptingPassengers -> OccupancyStatus.NOT_ACCEPTING_PASSENGERS
         net.testiprod.entur.apollographql.vehiclepositions.type.OccupancyStatus.standingRoomOnly -> OccupancyStatus.STANDING_ROOM_ONLY
+        net.testiprod.entur.apollographql.vehiclepositions.type.OccupancyStatus.seatsAvailable -> OccupancyStatus.SEATS_AVAILABLE
+        net.testiprod.entur.apollographql.vehiclepositions.type.OccupancyStatus.standingAvailable -> OccupancyStatus.STANDING_AVAILABLE
         net.testiprod.entur.apollographql.vehiclepositions.type.OccupancyStatus.UNKNOWN__ -> OccupancyStatus.UNKNOWN
         null -> OccupancyStatus.UNKNOWN
     }
@@ -54,11 +56,11 @@ internal fun net.testiprod.entur.apollographql.vehiclepositions.type.OccupancySt
 internal fun VehiclesQuery.Vehicle.toDomain(): Vehicle {
     try {
         return Vehicle(
-            serviceJourney?.id as String,
+            serviceJourney!!.id,
             line?.lineRef,
             line?.publicCode,
             line?.lineName,
-            StopMonitorUtils.parseDate(lastUpdated as String),
+            Instant.fromEpochSeconds(lastUpdatedEpochSecond!!.toLong()),
             delay?.toInt(),
             destinationName,
             bearing,
@@ -69,7 +71,7 @@ internal fun VehiclesQuery.Vehicle.toDomain(): Vehicle {
         )
     } catch (e: Exception) {
         throw StopMonitorParseException(
-            "Failed to parse $this. serviceJourney=$serviceJourney",
+            "Failed to parse $this.",
             e,
         )
     }

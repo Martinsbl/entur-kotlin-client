@@ -8,6 +8,8 @@ enum class OccupancyStatus(
     MANY_SEATS_AVAILABLE("manySeatsAvailable", "God plass"),
     FEW_SEATS_AVAILABLE("fewSeatsAvailable", "Få ledige seter"),
     STANDING_ROOM_ONLY("standingRoomOnly", "Kun ståplasser"),
+    SEATS_AVAILABLE("seatsAvailable", "Ledige seter"),
+    STANDING_AVAILABLE("standingAvailable", "Ledige ståplasser"),
     CRUSHED_STANDING_ROOM_ONLY("crushedStandingRoomOnly", "Få ledige ståplasser"),
     FULL("full", "Fullt"),
     NOT_ACCEPTING_PASSENGERS("notAcceptingPassengers", "Ingen påstigning"),

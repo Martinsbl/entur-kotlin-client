@@ -1,53 +1,82 @@
-subscription VehiclesSubscription($codespaceId: String, $lineRef: String) {
-  vehicles(codespaceId: $codespaceId, lineRef: $lineRef) {
-    line {
-      lineRef
-      publicCode
-      lineName
+# TODO Extract fragment for Vehicle and use it in both query and subscription
+subscription VehiclesSubscription(
+    $serviceJourneyId: String!
+) {
+    vehicles(serviceJourneyId: $serviceJourneyId) {
+        bearing
+        delay
+        destinationName
+        expirationEpochSecond
+        inCongestion
+        lastUpdatedEpochSecond
+        line {
+            lineRef
+            lineName
+            publicCode
+        }
+        location {
+            latitude
+            longitude
+        }
+        mode
+        monitored
+        monitoredCall {
+            order
+            stopPointRef
+            vehicleAtStop
+        }
+        occupancyStatus
+        originName
+        progressBetweenStops {
+            percentage
+            linkDistance
+        }
+        serviceJourney {
+            id
+        }
+        speed
+        vehicleId
+        vehicleStatus
     }
-    lastUpdated
-    location {
-      latitude
-      longitude
-    }
-    delay
-    destinationName
-    bearing
-    expirationEpochSecond
-    inCongestion
-    lastUpdatedEpochSecond
-    mode
-    occupancyStatus
-    speed
-    serviceJourney {
-      id
-    }
-  }
 }
 
-query VehiclesQuery($codespaceId: String, $lineRef: String) {
-  vehicles(codespaceId: $codespaceId, lineRef: $lineRef) {
-    line {
-      lineRef
-      publicCode
-      lineName
+query VehiclesQuery(
+    $serviceJourneyId: String!
+) {
+    vehicles(serviceJourneyId: $serviceJourneyId) {
+        bearing
+        delay
+        destinationName
+        expirationEpochSecond
+        inCongestion
+        lastUpdatedEpochSecond
+        line {
+            lineRef
+            lineName
+            publicCode
+        }
+        location {
+            latitude
+            longitude
+        }
+        mode
+        monitored
+        monitoredCall {
+            order
+            stopPointRef
+            vehicleAtStop
+        }
+        occupancyStatus
+        originName
+        progressBetweenStops {
+            percentage
+            linkDistance
+        }
+        serviceJourney {
+            id
+        }
+        speed
+        vehicleId
+        vehicleStatus
     }
-    lastUpdated
-    location {
-      latitude
-      longitude
-    }
-    delay
-    destinationName
-    bearing
-    expirationEpochSecond
-    inCongestion
-    lastUpdatedEpochSecond
-    mode
-    occupancyStatus
-    speed
-    serviceJourney {
-      id
-    }
-  }
 }

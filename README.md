@@ -90,6 +90,6 @@ val result = geocoderApi.fetchStopPlaces("Oslo S")
 
 - [Journey Planner v3 API](https://developer.entur.org/pages-journeyplanner-journeyplanner)
 - [Journey Planner v3 Explorer](https://api.entur.io/graphql-explorer/journey-planner-v3)
-- [Vehicle Position Explorer](https://api.entur.io/graphql-explorer/vehicles)
+- [Vehicle Position Explorer](https://api.entur.io/graphql-explorer/vehicles-v2)
 - [Geocoder API](https://developer.entur.org/pages-geocoder-intro)
 - [Stoppestedsregister](https://stoppested.entur.org/)

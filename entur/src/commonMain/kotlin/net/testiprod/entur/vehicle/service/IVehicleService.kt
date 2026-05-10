@@ -7,8 +7,5 @@ interface IVehicleService {
 
     // TODO Flow for subscription state?
 
-    fun getVehicleFlow(
-        codeSpaceId: String?,
-        lineRef: String?,
-    ): Flow<List<Vehicle>>
+    fun getVehicleFlow(serviceJourneyId: String): Flow<List<Vehicle>>
 }

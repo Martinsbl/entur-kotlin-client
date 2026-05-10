@@ -1,6 +1,7 @@
 package net.testiprod.entur.http
 
 import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.network.ws.GraphQLWsProtocol
 import com.apollographql.ktor.ktorClient
 import io.ktor.client.HttpClient
 import net.testiprod.entur.common.JOURNEY_PLANNER_BASE_URL
@@ -43,11 +44,12 @@ object EnturApolloClientFactory {
     ): ApolloClient {
         require(companyName.isNotBlank()) { "'companyName' cannot be blank" }
         require(appName.isNotBlank()) { "'appName' cannot be blank" }
-        val httpClient = EnturHttpClientFactory.create(companyName, appName)
+        val httpClient = EnturHttpClientFactory.createVehicleSubscriptionClient(companyName, appName)
         return ApolloClient.Builder()
             .serverUrl(baseUrl)
             .webSocketServerUrl(baseSubscriptionUrl)
-            .webSocketIdleTimeoutMillis(5_000)
+            .webSocketIdleTimeoutMillis(60_000)
+            .wsProtocol(GraphQLWsProtocol.Factory())
             .ktorClient(httpClient)
             .build()
     }
@@ -60,7 +62,8 @@ object EnturApolloClientFactory {
         return ApolloClient.Builder()
             .serverUrl(baseUrl)
             .webSocketServerUrl(baseSubscriptionUrl)
-            .webSocketIdleTimeoutMillis(5_000)
+            .webSocketIdleTimeoutMillis(60_000)
+            .wsProtocol(GraphQLWsProtocol.Factory())
             .ktorClient(httpClient)
             .build()
     }

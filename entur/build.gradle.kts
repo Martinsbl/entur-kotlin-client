@@ -38,7 +38,7 @@ kotlin {
     }
 
     sourceSets {
-        val ktorVersion = "3.3.3"
+        val ktorVersion = "3.4.3"
         val coroutinesVersion = "1.10.2"
         commonMain.dependencies {
             implementation("com.apollographql.ktor:apollo-engine-ktor:0.1.1")
@@ -47,6 +47,7 @@ kotlin {
             implementation("io.ktor:ktor-client-core:$ktorVersion")
             implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
             implementation("io.ktor:ktor-client-logging:$ktorVersion")
+            implementation("io.ktor:ktor-client-websockets:$ktorVersion")
             implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
 
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")

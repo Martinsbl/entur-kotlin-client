@@ -1,14 +1,11 @@
 package net.testiprod
 
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
-import net.testiprod.entur.common.OSLO_BUSSTERMINAL
-import net.testiprod.entur.common.OSLO_S
-import net.testiprod.entur.common.models.DirectionType
+import net.testiprod.entur.common.DRAMMEN_BUSS_STASJON
 import net.testiprod.entur.common.models.Line
 import net.testiprod.entur.http.EnturResult
 import net.testiprod.entur.journeyplanner.stopplace.api.StopPlaceApi
-import net.testiprod.entur.journeyplanner.stopplace.filtering.LineDirectionFilter
-import net.testiprod.entur.journeyplanner.stopplace.filtering.LineFilter
 import net.testiprod.entur.journeyplanner.stopplace.models.StopPlaceQuay
 import net.testiprod.entur.journeyplanner.stopplace.service.StopPlaceService
 import net.testiprod.entur.journeyplanner.trip.api.TripApi
@@ -17,6 +14,7 @@ import net.testiprod.entur.journeyplanner.trip.models.Location
 import net.testiprod.entur.journeyplanner.trip.models.Trip
 import net.testiprod.entur.vehicle.api.VehicleApi
 import net.testiprod.entur.vehicle.models.Vehicle
+import net.testiprod.entur.vehicle.service.VehicleService
 import kotlin.time.Duration.Companion.seconds
 
 fun main() {
@@ -29,13 +27,23 @@ fun main() {
         "github.com/martinsbl",
         "kotlin-entur-client",
     )
+    val vehicleService = VehicleService(vehicleApi, 30_000)
     val tripApi = TripApi(
         "github.com/martinsbl",
         "kotlin-entur-client",
     )
 
     runBlocking {
-        testTripApi(tripApi)
+//        testTripApi(tripApi)
+        val enturResult = stopPlaceApi.fetchStopPlaceQuay(DRAMMEN_BUSS_STASJON)
+        require(enturResult is EnturResult.Success)
+        val estimatedCall = enturResult.data.estimatedCalls.first()
+        vehicleService.getVehicleFlow(
+            estimatedCall.serviceJourney!!.id,
+        ).collect { it ->
+            println(it.joinToString { it.toPrettyPrintVehicle() })
+        }
+        delay(60.seconds)
 //        testApi(stopPlaceApi, vehicleApi)
 //        testService(stopPlaceService)
     }
@@ -73,32 +81,6 @@ private fun Line.toPrettyLine(): String {
     return "${this.transportMode.name.lowercase().capitalize()} ${this.publicCode}"
 }
 
-private suspend fun testApi(
-    stopPlaceApi: StopPlaceApi,
-    vehicleApi: VehicleApi,
-) {
-    val stopPlaces = stopPlaceApi.fetchStopPlaceQuay(OSLO_S)
-    println(stopPlaces.toPrettyStopPlace())
-    val vehicles = vehicleApi.fetchVehicles("SKY", null)
-    println(vehicles.toPrettyVehicles())
-}
-
-private suspend fun testService(stopPlaceService: StopPlaceService) {
-    val filters = listOf(
-        LineFilter("4", DirectionType.OUTBOUND),
-        LineFilter("1", DirectionType.INBOUND),
-    )
-    stopPlaceService.observeStopPlace(
-        OSLO_BUSSTERMINAL,
-        numberOfDepartures = 20,
-        refreshInterval = 30.seconds,
-        filters = listOf(LineDirectionFilter(filters)),
-
-    ).collect {
-        println(it.toPrettyStopPlace())
-    }
-}
-
 private fun EnturResult<StopPlaceQuay>.toPrettyStopPlace(): String {
     when (this) {
         is EnturResult.Success -> {
@@ -121,7 +103,7 @@ private fun EnturResult<List<Vehicle>>.toPrettyVehicles(): String {
                 return "No vehicles found."
             }
             val vehiclesInfo = data.joinToString(separator = "\n") { vehicle ->
-                "Vehicle ${vehicle.serviceJourneyId} on line ${vehicle.lineRef} at position (${vehicle.location.lat}, ${vehicle.location.lon})"
+                vehicle.toPrettyPrintVehicle()
             }
             return "Vehicles:\n$vehiclesInfo"
         }
@@ -131,3 +113,6 @@ private fun EnturResult<List<Vehicle>>.toPrettyVehicles(): String {
         }
     }
 }
+
+private fun Vehicle.toPrettyPrintVehicle(): String =
+    "Vehicle $serviceJourneyId on line $lineRef at position (${location.lat}, ${location.lon}), ${this.bearing} degrees, speed ${this.speed} m/s, occupancy ${this.occupancyStatus}, ${this.lastUpdated}"
