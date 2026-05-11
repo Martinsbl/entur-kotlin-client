@@ -3,6 +3,7 @@ package net.testiprod.entur.vehicle.api
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.ApolloResponse
 import com.apollographql.apollo.api.Operation
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -16,7 +17,6 @@ import net.testiprod.entur.http.EnturApolloClientFactory
 import net.testiprod.entur.http.EnturResult
 import net.testiprod.entur.vehicle.models.Vehicle
 import net.testiprod.entur.vehicle.toDomain
-import kotlin.math.min
 
 class VehicleApi(private val vehicleClient: ApolloClient) {
     constructor(
@@ -33,29 +33,29 @@ class VehicleApi(private val vehicleClient: ApolloClient) {
         ),
     )
 
-    suspend fun fetchVehicles(serviceJourneyId: String): EnturResult<List<Vehicle>> {
+    suspend fun fetchVehicles(serviceJourneyId: String): EnturResult<List<Vehicle>> = try {
         val response = vehicleClient.query(VehiclesQuery(serviceJourneyId)).execute()
-        return EnturResult.Success(mapQueryResponse(response))
+        EnturResult.Success(mapQueryResponse(response))
+    } catch (e: CancellationException) {
+        throw e
+    } catch (e: Throwable) {
+        EnturResult.Error(e)
     }
 
     fun subscribeToVehicleUpdates(
         serviceJourneyId: String,
-        onRetry: suspend (Throwable, Long) -> Boolean = { _, attempt -> defaultRetry(attempt) },
-    ): Flow<List<Vehicle>> {
-        return vehicleClient.subscription(VehiclesSubscription(serviceJourneyId))
-            .toFlow()
-            .map {
-                mapSubscriptionResponse(it)
+        retryPolicy: RetryPolicy = RetryPolicy.Default,
+    ): Flow<List<Vehicle>> = vehicleClient.subscription(VehiclesSubscription(serviceJourneyId))
+        .toFlow()
+        .map { mapSubscriptionResponse(it) }
+        .retryWhen { throwable, attempt ->
+            if (attempt >= retryPolicy.maxAttempts || !retryPolicy.shouldRetry(throwable)) {
+                false
+            } else {
+                delay(retryPolicy.delay(attempt))
+                true
             }
-            .retryWhen { throwable, attempt ->
-                onRetry(throwable, attempt)
-            }
-    }
-
-    private suspend fun defaultRetry(attempt: Long): Boolean {
-        delay(min((attempt + 1) * 1_000, 30_000L))
-        return true
-    }
+        }
 
     private fun mapQueryResponse(data: ApolloResponse<VehiclesQuery.Data>): List<Vehicle> =
         mapResponse(data) { it.vehicles?.mapNotNull { it?.toDomain() } }
@@ -68,10 +68,10 @@ class VehicleApi(private val vehicleClient: ApolloClient) {
         extractVehicles: (T) -> List<Vehicle>?,
     ): List<Vehicle> {
         response.exception?.let {
-            throw EnturResponseException("Entur exception", it)
+            throw EnturResponseException("Vehicle API exception", it)
         }
         response.errors?.let {
-            throw EnturResponseException("Vehicle errors: ${it.joinToString()}", response.exception)
+            throw EnturResponseException("Vehicle API errors: ${it.joinToString()}", response.exception)
         }
         return response.data?.let { extractVehicles(it) }
             ?: throw EnturResponseException("Got neither data, nor errors from Entur vehicle query.", null)

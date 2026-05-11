@@ -20,33 +20,16 @@ class VehicleService(
 
     override fun getVehicleFlow(serviceJourneyId: String): Flow<List<Vehicle>> {
         val initialQuery = flow {
-            val response = vehicleApi.fetchVehicles(serviceJourneyId)
-            when (response) {
-                is EnturResult.Success -> {
-                    emit(response.data)
-                }
-
-                is EnturResult.Error -> {
-                    onError(response.exception, null)
-                }
+            when (val response = vehicleApi.fetchVehicles(serviceJourneyId)) {
+                is EnturResult.Success -> emit(response.data)
+                is EnturResult.Error -> println("Initial vehicle fetch failed: ${response.exception?.message}")
             }
         }
-        val subscription = vehicleApi.subscribeToVehicleUpdates(serviceJourneyId, ::onError)
+        val subscription = vehicleApi.subscribeToVehicleUpdates(serviceJourneyId)
         return merge(initialQuery, subscription)
             .flowOn(Dispatchers.Default)
             .filter { it.isNotEmpty() }
-            .map {
-                filterVehicles(it)
-            }
-    }
-
-    private fun onError(
-        throwable: Throwable?,
-        attempt: Long?,
-    ) {
-        // TODO
-        println("Error fetching vehicle data. ${throwable?.message}")
-        throwable?.printStackTrace()
+            .map { filterVehicles(it) }
     }
 
     private val vehicleMap = mutableMapOf<String, Vehicle>()
