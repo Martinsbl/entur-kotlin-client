@@ -15,6 +15,7 @@ import net.testiprod.entur.http.EnturApolloClientFactory
 import net.testiprod.entur.http.EnturResult
 import net.testiprod.entur.vehicle.models.Vehicle
 import net.testiprod.entur.vehicle.toDomain
+import kotlin.math.min
 
 class VehicleApi(private val vehicleClient: ApolloClient) {
     constructor(
@@ -38,7 +39,7 @@ class VehicleApi(private val vehicleClient: ApolloClient) {
 
     fun subscribeToVehicleUpdates(
         serviceJourneyId: String,
-        onRetry: (Throwable, Long) -> (Unit),
+        onRetry: suspend (Throwable, Long) -> Boolean = { t, l -> defaultRetry(l) },
     ): Flow<List<Vehicle>> {
         return vehicleClient.subscription(VehiclesSubscription(serviceJourneyId))
             .toFlow()
@@ -46,10 +47,13 @@ class VehicleApi(private val vehicleClient: ApolloClient) {
                 mapSubscriptionResponse(it)
             }
             .retryWhen { throwable, attempt ->
-                onRetry.invoke(throwable, attempt)
-                delay(attempt * 2000)
-                true
+                onRetry(throwable, attempt)
             }
+    }
+
+    private suspend fun defaultRetry(attempt: Long): Boolean {
+        delay(min(attempt * 1000, 5_000L))
+        return true
     }
 
     private fun mapQueryResponse(data: ApolloResponse<VehiclesQuery.Data>): List<Vehicle> {

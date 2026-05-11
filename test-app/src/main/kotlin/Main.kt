@@ -41,7 +41,7 @@ fun main() {
         vehicleService.getVehicleFlow(
             estimatedCall.serviceJourney!!.id,
         ).collect { it ->
-            println(it.joinToString { it.toPrettyPrintVehicle() })
+            println(it.joinToString { it.toString() })
         }
         delay(60.seconds)
 //        testApi(stopPlaceApi, vehicleApi)

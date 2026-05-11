@@ -3,40 +3,7 @@ subscription VehiclesSubscription(
     $serviceJourneyId: String!
 ) {
     vehicles(serviceJourneyId: $serviceJourneyId) {
-        bearing
-        delay
-        destinationName
-        expirationEpochSecond
-        inCongestion
-        lastUpdatedEpochSecond
-        line {
-            lineRef
-            lineName
-            publicCode
-        }
-        location {
-            latitude
-            longitude
-        }
-        mode
-        monitored
-        monitoredCall {
-            order
-            stopPointRef
-            vehicleAtStop
-        }
-        occupancyStatus
-        originName
-        progressBetweenStops {
-            percentage
-            linkDistance
-        }
-        serviceJourney {
-            id
-        }
-        speed
-        vehicleId
-        vehicleStatus
+        ...vehicleUpdateFragment
     }
 }
 
@@ -44,39 +11,6 @@ query VehiclesQuery(
     $serviceJourneyId: String!
 ) {
     vehicles(serviceJourneyId: $serviceJourneyId) {
-        bearing
-        delay
-        destinationName
-        expirationEpochSecond
-        inCongestion
-        lastUpdatedEpochSecond
-        line {
-            lineRef
-            lineName
-            publicCode
-        }
-        location {
-            latitude
-            longitude
-        }
-        mode
-        monitored
-        monitoredCall {
-            order
-            stopPointRef
-            vehicleAtStop
-        }
-        occupancyStatus
-        originName
-        progressBetweenStops {
-            percentage
-            linkDistance
-        }
-        serviceJourney {
-            id
-        }
-        speed
-        vehicleId
-        vehicleStatus
+        ...vehicleUpdateFragment
     }
 }
