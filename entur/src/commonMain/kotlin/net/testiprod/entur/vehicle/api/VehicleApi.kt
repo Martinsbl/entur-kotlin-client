@@ -2,6 +2,7 @@ package net.testiprod.entur.vehicle.api
 
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.ApolloResponse
+import com.apollographql.apollo.api.Operation
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.mapNotNull
@@ -43,7 +44,7 @@ class VehicleApi(private val vehicleClient: ApolloClient) {
     ): Flow<List<Vehicle>> {
         return vehicleClient.subscription(VehiclesSubscription(serviceJourneyId))
             .toFlow()
-            .mapNotNull {
+            .map {
                 mapSubscriptionResponse(it)
             }
             .retryWhen { throwable, attempt ->
@@ -56,26 +57,23 @@ class VehicleApi(private val vehicleClient: ApolloClient) {
         return true
     }
 
-    private fun mapQueryResponse(data: ApolloResponse<VehiclesQuery.Data>): List<Vehicle> {
-        data.errors?.let {
-            throw EnturResponseException("Vehicle query errors=${it.joinToString()}", null)
-        }
-        data.data?.vehicles?.let { vehicles ->
-            return vehicles.mapNotNull { it?.toDomain() }
-        }
-        throw EnturResponseException("Got neither data, nor errors from Entur vehicle query.", null)
-    }
+    private fun mapQueryResponse(data: ApolloResponse<VehiclesQuery.Data>): List<Vehicle> =
+        mapResponse(data) { it.vehicles?.mapNotNull { it?.toDomain() } }
 
-    private fun mapSubscriptionResponse(data: ApolloResponse<VehiclesSubscription.Data>): List<Vehicle>? {
-        data.exception?.let {
+    private fun mapSubscriptionResponse(data: ApolloResponse<VehiclesSubscription.Data>): List<Vehicle> =
+        mapResponse(data) { it.vehicles?.mapNotNull { it?.toDomain() } }
+
+    private fun <T : Operation.Data> mapResponse(
+        response: ApolloResponse<T>,
+        extractVehicles: (T) -> List<Vehicle>?,
+    ): List<Vehicle> {
+        response.exception?.let {
             throw EnturResponseException("Entur exception", it)
         }
-        data.errors?.let {
-            throw EnturResponseException("Vehicle subscription errors=${it.joinToString()}", data.exception)
+        response.errors?.let {
+            throw EnturResponseException("Vehicle errors: ${it.joinToString()}", response.exception)
         }
-        data.data?.vehicles?.let { vehicles ->
-            return vehicles.mapNotNull { it?.toDomain() }
-        }
-        return null
+        return response.data?.let { extractVehicles(it) }
+            ?: throw EnturResponseException("Got neither data, nor errors from Entur vehicle query.", null)
     }
 }
