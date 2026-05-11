@@ -5,7 +5,7 @@ import com.apollographql.apollo.api.ApolloResponse
 import com.apollographql.apollo.api.Operation
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.retryWhen
 import net.testiprod.entur.apollographql.vehiclepositions.VehiclesQuery
 import net.testiprod.entur.apollographql.vehiclepositions.VehiclesSubscription
@@ -40,7 +40,7 @@ class VehicleApi(private val vehicleClient: ApolloClient) {
 
     fun subscribeToVehicleUpdates(
         serviceJourneyId: String,
-        onRetry: suspend (Throwable, Long) -> Boolean = { t, l -> defaultRetry(l) },
+        onRetry: suspend (Throwable, Long) -> Boolean = { _, attempt -> defaultRetry(attempt) },
     ): Flow<List<Vehicle>> {
         return vehicleClient.subscription(VehiclesSubscription(serviceJourneyId))
             .toFlow()
@@ -53,7 +53,7 @@ class VehicleApi(private val vehicleClient: ApolloClient) {
     }
 
     private suspend fun defaultRetry(attempt: Long): Boolean {
-        delay(min(attempt * 1000, 5_000L))
+        delay(min((attempt + 1) * 1_000, 30_000L))
         return true
     }
 
