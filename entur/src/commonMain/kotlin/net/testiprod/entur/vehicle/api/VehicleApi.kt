@@ -15,13 +15,19 @@ import net.testiprod.entur.common.VEHICLE_SUBSCRIPTION_BASE_URL
 import net.testiprod.entur.common.exceptions.EnturResponseException
 import net.testiprod.entur.http.EnturApolloClientFactory
 import net.testiprod.entur.http.EnturResult
+import net.testiprod.entur.logging.EnturLog
+import net.testiprod.entur.logging.HttpLogLevel
 import net.testiprod.entur.vehicle.models.Vehicle
 import net.testiprod.entur.vehicle.toDomain
 
 class VehicleApi(private val vehicleClient: ApolloClient) {
+
+    private val logger = EnturLog.logger<VehicleApi>()
+
     constructor(
         companyName: String,
         appName: String,
+        logLevel: HttpLogLevel = HttpLogLevel.ALL,
         baseUrl: String = VEHICLES_BASE_URL,
         baseSubscriptionUrl: String = VEHICLE_SUBSCRIPTION_BASE_URL,
     ) : this(
@@ -30,6 +36,7 @@ class VehicleApi(private val vehicleClient: ApolloClient) {
             appName,
             baseUrl,
             baseSubscriptionUrl,
+            logLevel,
         ),
     )
 
@@ -37,8 +44,10 @@ class VehicleApi(private val vehicleClient: ApolloClient) {
         val response = vehicleClient.query(VehiclesQuery(serviceJourneyId)).execute()
         EnturResult.Success(mapQueryResponse(response))
     } catch (e: CancellationException) {
+        logger.w("Vehicle API query cancelled: ${e.message}")
         throw e
     } catch (e: Throwable) {
+        logger.w("Vehicle API query failed: ${e.message}", e)
         EnturResult.Error(e)
     }
 
@@ -50,8 +59,10 @@ class VehicleApi(private val vehicleClient: ApolloClient) {
         .map { mapSubscriptionResponse(it) }
         .retryWhen { throwable, attempt ->
             if (attempt >= retryPolicy.maxAttempts || !retryPolicy.shouldRetry(throwable)) {
+                logger.w("Not retrying vehicle subscription after attempt $attempt: ${throwable.message}")
                 false
             } else {
+                logger.d("Retrying vehicle subscription after attempt $attempt: ${throwable.message}")
                 delay(retryPolicy.delay(attempt))
                 true
             }

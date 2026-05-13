@@ -12,12 +12,23 @@ import net.testiprod.entur.journeyplanner.trip.api.TripApi
 import net.testiprod.entur.journeyplanner.trip.models.Leg
 import net.testiprod.entur.journeyplanner.trip.models.Location
 import net.testiprod.entur.journeyplanner.trip.models.Trip
+import net.testiprod.entur.logging.EnturLog
+import net.testiprod.entur.logging.HttpLogLevel
+import net.testiprod.entur.logging.LogLevel
+import net.testiprod.entur.logging.defaultPlatformSink
 import net.testiprod.entur.vehicle.api.VehicleApi
 import net.testiprod.entur.vehicle.models.Vehicle
 import net.testiprod.entur.vehicle.service.VehicleService
 import kotlin.time.Duration.Companion.seconds
 
+private val log = EnturLog.logger("net.testiprod.MainKt")
+
 fun main() {
+    EnturLog.configure {
+        sink = defaultPlatformSink()
+        minLevel = LogLevel.TRACE
+    }
+
     val stopPlaceApi = StopPlaceApi(
         "github.com/martinsbl",
         "kotlin-entur-client",
@@ -26,6 +37,7 @@ fun main() {
     val vehicleApi = VehicleApi(
         "github.com/martinsbl",
         "kotlin-entur-client",
+        HttpLogLevel.ALL,
     )
     val vehicleService = VehicleService(vehicleApi, 30_000)
     val tripApi = TripApi(
@@ -48,7 +60,7 @@ fun main() {
 //        testService(stopPlaceService)
     }
 
-    println("The End")
+    log.i("The End")
 }
 
 private suspend fun testTripApi(tripApi: TripApi) {
@@ -56,7 +68,7 @@ private suspend fun testTripApi(tripApi: TripApi) {
         Location.StopPlace("NSR:StopPlace:337"),
         Location.StopPlace("NSR:StopPlace:11"),
     )
-    println(trips.toPrettyTrip())
+    log.i(trips.toPrettyTrip())
 }
 
 private fun Trip.toPrettyTrip(): String {

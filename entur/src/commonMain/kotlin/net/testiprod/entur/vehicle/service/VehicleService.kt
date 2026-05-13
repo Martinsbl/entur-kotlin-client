@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
-import kotlinx.coroutines.flow.onEach
 import net.testiprod.entur.http.EnturResult
+import net.testiprod.entur.logging.EnturLog
 import net.testiprod.entur.vehicle.api.VehicleApi
 import net.testiprod.entur.vehicle.models.Vehicle
 import kotlin.time.Clock
@@ -17,12 +17,13 @@ class VehicleService(
     private val vehicleApi: VehicleApi,
     private val vehicleTimeout: Long,
 ) : IVehicleService {
+    private val log = EnturLog.logger<VehicleService>()
 
     override fun getVehicleFlow(serviceJourneyId: String): Flow<List<Vehicle>> {
         val initialQuery = flow {
             when (val response = vehicleApi.fetchVehicles(serviceJourneyId)) {
                 is EnturResult.Success -> emit(response.data)
-                is EnturResult.Error -> println("Initial vehicle fetch failed: ${response.exception?.message}")
+                is EnturResult.Error -> log.w("Initial vehicle fetch failed", response.exception)
             }
         }
         val subscription = vehicleApi.subscribeToVehicleUpdates(serviceJourneyId)

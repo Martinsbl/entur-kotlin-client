@@ -4,14 +4,15 @@ import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
-import io.ktor.client.plugins.logging.DEFAULT
-import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.websocket.WebSockets
 import io.ktor.client.request.header
 import io.ktor.http.URLProtocol
 import io.ktor.serialization.kotlinx.json.json
+import net.testiprod.entur.logging.EnturLog
+import net.testiprod.entur.logging.HttpLogLevel
+import net.testiprod.entur.logging.HttpLogLevel.Companion.toKtorLoglevel
 
 object EnturHttpClientFactory {
 
@@ -26,6 +27,7 @@ object EnturHttpClientFactory {
     fun create(
         companyName: String,
         appName: String,
+        logLevel: HttpLogLevel = HttpLogLevel.INFO,
         configure: HttpClientConfig<*>.() -> Unit = {},
     ): HttpClient {
         require(companyName.isNotBlank()) { "'companyName' cannot be blank" }
@@ -43,9 +45,13 @@ object EnturHttpClientFactory {
             }
 
             install(Logging) {
-                // TODO Configurable logging level?
-                logger = Logger.DEFAULT
-                level = LogLevel.ALL
+                logger = object : Logger {
+                    private val enturLogger = EnturLog.logger("EnturHttp")
+                    override fun log(message: String) {
+                        enturLogger.d(message)
+                    }
+                }
+                level = logLevel.toKtorLoglevel()
             }
 
             install(ContentNegotiation) {
@@ -66,9 +72,10 @@ object EnturHttpClientFactory {
     fun createVehicleSubscriptionClient(
         companyName: String,
         appName: String,
+        logLevel: HttpLogLevel = HttpLogLevel.INFO,
         configure: HttpClientConfig<*>.() -> Unit = {},
     ): HttpClient {
-        return create(companyName, appName) {
+        return create(companyName, appName, logLevel) {
             install(WebSockets)
             configure()
         }

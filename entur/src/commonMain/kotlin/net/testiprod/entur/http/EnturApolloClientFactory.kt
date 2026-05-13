@@ -11,6 +11,7 @@ import kotlinx.coroutines.delay
 import net.testiprod.entur.common.JOURNEY_PLANNER_BASE_URL
 import net.testiprod.entur.common.VEHICLES_BASE_URL
 import net.testiprod.entur.common.VEHICLE_SUBSCRIPTION_BASE_URL
+import net.testiprod.entur.logging.HttpLogLevel
 
 object EnturApolloClientFactory {
 
@@ -18,11 +19,12 @@ object EnturApolloClientFactory {
         companyName: String,
         appName: String,
         serverUrl: String = JOURNEY_PLANNER_BASE_URL,
+        logLevel: HttpLogLevel = HttpLogLevel.INFO,
     ): ApolloClient {
         require(companyName.isNotBlank()) { "'companyName' cannot be blank" }
         require(appName.isNotBlank()) { "'appName' cannot be blank" }
 
-        val httpClient = EnturHttpClientFactory.create(companyName, appName)
+        val httpClient = EnturHttpClientFactory.create(companyName, appName, logLevel)
 
         return ApolloClient.Builder()
             .serverUrl(serverUrl)
@@ -45,10 +47,11 @@ object EnturApolloClientFactory {
         appName: String,
         baseUrl: String = VEHICLES_BASE_URL,
         baseSubscriptionUrl: String = VEHICLE_SUBSCRIPTION_BASE_URL,
+        logLevel: HttpLogLevel = HttpLogLevel.INFO,
     ): ApolloClient {
         require(companyName.isNotBlank()) { "'companyName' cannot be blank" }
         require(appName.isNotBlank()) { "'appName' cannot be blank" }
-        val httpClient = EnturHttpClientFactory.createVehicleSubscriptionClient(companyName, appName)
+        val httpClient = EnturHttpClientFactory.createVehicleSubscriptionClient(companyName, appName, logLevel)
         return createVehicleClient(httpClient, baseUrl, baseSubscriptionUrl)
     }
 
