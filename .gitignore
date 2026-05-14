@@ -43,3 +43,5 @@ bin/
 
 local.properties
 /.gitignored
+/.claude
+AGENTS.md
