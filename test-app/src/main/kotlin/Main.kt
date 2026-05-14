@@ -3,6 +3,8 @@ package net.testiprod
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import net.testiprod.entur.common.DRAMMEN_BUSS_STASJON
+import net.testiprod.entur.common.DRAMMEN_TOG
+import net.testiprod.entur.common.OSLO_S
 import net.testiprod.entur.common.models.Line
 import net.testiprod.entur.http.EnturResult
 import net.testiprod.entur.journeyplanner.stopplace.api.StopPlaceApi
@@ -46,18 +48,15 @@ fun main() {
     )
 
     runBlocking {
-//        testTripApi(tripApi)
         val enturResult = stopPlaceApi.fetchStopPlaceQuay(DRAMMEN_BUSS_STASJON)
         require(enturResult is EnturResult.Success)
         val estimatedCall = enturResult.data.estimatedCalls.first()
-        vehicleService.getVehicleFlow(
+        vehicleApi.subscribeToVehicleUpdates(
             estimatedCall.serviceJourney!!.id,
         ).collect { it ->
-            println(it.joinToString { it.toString() })
+            log.i(it.joinToString { it.toPrettyPrintVehicle() })
         }
         delay(60.seconds)
-//        testApi(stopPlaceApi, vehicleApi)
-//        testService(stopPlaceService)
     }
 
     log.i("The End")
@@ -65,8 +64,8 @@ fun main() {
 
 private suspend fun testTripApi(tripApi: TripApi) {
     val trips = tripApi.fetchTrip(
-        Location.StopPlace("NSR:StopPlace:337"),
-        Location.StopPlace("NSR:StopPlace:11"),
+        Location.StopPlace(OSLO_S),
+        Location.StopPlace(DRAMMEN_TOG),
     )
     log.i(trips.toPrettyTrip())
 }

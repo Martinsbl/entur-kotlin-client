@@ -20,7 +20,7 @@ import net.testiprod.entur.logging.HttpLogLevel
 import net.testiprod.entur.vehicle.models.Vehicle
 import net.testiprod.entur.vehicle.toDomain
 
-class VehicleApi(private val vehicleClient: ApolloClient) {
+class VehicleApi(private val vehicleClient: ApolloClient) : AutoCloseable {
 
     private val logger = EnturLog.logger<VehicleApi>()
 
@@ -59,10 +59,10 @@ class VehicleApi(private val vehicleClient: ApolloClient) {
         .map { mapSubscriptionResponse(it) }
         .retryWhen { throwable, attempt ->
             if (attempt >= retryPolicy.maxAttempts || !retryPolicy.shouldRetry(throwable)) {
-                logger.w("Not retrying vehicle subscription after attempt $attempt: ${throwable.message}")
+                logger.w("Not retrying vehicle subscription after attempt $attempt", throwable)
                 false
             } else {
-                logger.d("Retrying vehicle subscription after attempt $attempt: ${throwable.message}")
+                logger.w("Retrying vehicle subscription after attempt $attempt", throwable)
                 delay(retryPolicy.delay(attempt))
                 true
             }
@@ -79,12 +79,16 @@ class VehicleApi(private val vehicleClient: ApolloClient) {
         extractVehicles: (T) -> List<Vehicle>?,
     ): List<Vehicle> {
         response.exception?.let {
-            throw EnturResponseException("Vehicle API exception", it)
+            throw it
         }
         response.errors?.let {
             throw EnturResponseException("Vehicle API errors: ${it.joinToString()}", response.exception)
         }
         return response.data?.let { extractVehicles(it) }
             ?: throw EnturResponseException("Got neither data, nor errors from Entur vehicle query.", null)
+    }
+
+    override fun close() {
+        vehicleClient.close()
     }
 }

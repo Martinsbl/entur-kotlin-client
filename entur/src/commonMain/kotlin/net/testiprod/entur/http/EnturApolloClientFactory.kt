@@ -6,14 +6,17 @@ import com.apollographql.apollo.exception.ApolloWebSocketClosedException
 import com.apollographql.apollo.network.ws.GraphQLWsProtocol
 import com.apollographql.ktor.ktorClient
 import io.ktor.client.HttpClient
-import kotlin.math.min
 import kotlinx.coroutines.delay
 import net.testiprod.entur.common.JOURNEY_PLANNER_BASE_URL
 import net.testiprod.entur.common.VEHICLES_BASE_URL
 import net.testiprod.entur.common.VEHICLE_SUBSCRIPTION_BASE_URL
+import net.testiprod.entur.logging.EnturLog
 import net.testiprod.entur.logging.HttpLogLevel
+import kotlin.time.Duration.Companion.seconds
 
 object EnturApolloClientFactory {
+
+    private val logger = EnturLog.logger<EnturApolloClientFactory>()
 
     fun create(
         companyName: String,
@@ -65,15 +68,28 @@ object EnturApolloClientFactory {
             .webSocketServerUrl(baseSubscriptionUrl)
             .webSocketIdleTimeoutMillis(60_000)
             .wsProtocol(GraphQLWsProtocol.Factory())
-            .webSocketReopenWhen { throwable, attempt ->
-                if (throwable is ApolloWebSocketClosedException || throwable is ApolloNetworkException) {
-                    delay(min((attempt + 1) * 1_000, 30_000L))
-                    true
-                } else {
-                    false
-                }
-            }
+            .webSocketReopenWhen(::tryToReopen)
             .ktorClient(httpClient)
             .build()
+    }
+
+    private suspend fun tryToReopen(
+        throwable: Throwable,
+        attempt: Long,
+        maxAttempts: Int = 3,
+    ): Boolean = if (throwable is ApolloWebSocketClosedException || throwable is ApolloNetworkException) {
+        delay((attempt + 1).seconds)
+        val retrying = attempt <= maxAttempts
+        logger.w(
+            "WebSocket connection closed unexpectedly (attempt: $attempt, retrying: $retrying)",
+            throwable,
+        )
+        retrying
+    } else {
+        logger.w(
+            "WebSocket connection error that is not recoverable (attempt $attempt). Not retrying.",
+            throwable,
+        )
+        false
     }
 }
