@@ -18,7 +18,7 @@ object EnturLog {
 
     fun logger(tag: String): Logger = Logger(tag)
 
-    inline fun <reified T> logger(): Logger = logger(T::class.simpleName ?: "EnturLog")
+    inline fun <reified T> logger(): Logger = logger(T::class.qualifiedName ?: "EnturLog")
 
     internal fun logInternal(
         level: LogLevel,
