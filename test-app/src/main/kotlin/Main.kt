@@ -9,7 +9,6 @@ import net.testiprod.entur.common.models.Line
 import net.testiprod.entur.http.EnturResult
 import net.testiprod.entur.journeyplanner.stopplace.api.StopPlaceApi
 import net.testiprod.entur.journeyplanner.stopplace.models.StopPlaceQuay
-import net.testiprod.entur.journeyplanner.stopplace.service.StopPlaceService
 import net.testiprod.entur.journeyplanner.trip.api.TripApi
 import net.testiprod.entur.journeyplanner.trip.models.Leg
 import net.testiprod.entur.journeyplanner.trip.models.Location
@@ -24,6 +23,7 @@ import net.testiprod.entur.vehicle.service.VehicleService
 import kotlin.time.Duration.Companion.seconds
 
 private val log = EnturLog.logger("net.testiprod.MainKt")
+private const val ENTUR_CLIENT_NAME = "github.com/martinsbl - kotlin-entur-client"
 
 fun main() {
     EnturLog.configure {
@@ -31,21 +31,19 @@ fun main() {
         minLevel = LogLevel.TRACE
     }
 
-    val stopPlaceApi = StopPlaceApi(
-        "github.com/martinsbl",
-        "kotlin-entur-client",
-    )
-    val stopPlaceService = StopPlaceService(stopPlaceApi)
-    val vehicleApi = VehicleApi(
-        "github.com/martinsbl",
-        "kotlin-entur-client",
-        HttpLogLevel.ALL,
-    )
+    val stopPlaceApi = StopPlaceApi {
+        enturClientName = ENTUR_CLIENT_NAME
+        logLevel = HttpLogLevel.ALL
+    }
+    val vehicleApi = VehicleApi {
+        enturClientName = ENTUR_CLIENT_NAME
+        logLevel = HttpLogLevel.ALL
+    }
     val vehicleService = VehicleService(vehicleApi, 30_000)
-    val tripApi = TripApi(
-        "github.com/martinsbl",
-        "kotlin-entur-client",
-    )
+    val tripApi = TripApi {
+        enturClientName = ENTUR_CLIENT_NAME
+        logLevel = HttpLogLevel.ALL
+    }
 
     runBlocking {
         val enturResult = stopPlaceApi.fetchStopPlaceQuay(DRAMMEN_BUSS_STASJON)

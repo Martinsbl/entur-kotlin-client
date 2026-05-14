@@ -18,22 +18,15 @@ object EnturHttpClientFactory {
 
     /**
      * Creates an instance of [HttpClient] configured for Entur API usage.
-     * companyName and appName are used to set the "ET-Client-Name" header as specified
-     * here https://developer.entur.org/pages-intro-authentication.
-     * @param companyName The name of the company using the client. Must not be blank.
-     * @param appName The name of the application using the client. Must not be blank
+     * @param enturClientName The ET-Client-Name of the client. Must not be blank. https://developer.entur.org/pages-intro-authentication.
      * @param configure Optional lambda to further configure the [HttpClient].
      */
     fun create(
-        companyName: String,
-        appName: String,
+        enturClientName: String,
         logLevel: HttpLogLevel = HttpLogLevel.INFO,
         configure: HttpClientConfig<*>.() -> Unit = {},
     ): HttpClient {
-        require(companyName.isNotBlank()) { "'companyName' cannot be blank" }
-        require(appName.isNotBlank()) { "'appName' cannot be blank" }
-
-        val enturClientName = "$companyName-$appName"
+        require(enturClientName.isNotBlank()) { "'enturClientName' cannot be blank" }
 
         return HttpClient {
             defaultRequest {
@@ -63,19 +56,15 @@ object EnturHttpClientFactory {
 
     /**
      * Creates an instance of [HttpClient] that supports WebSockets for Vehicle Subscriptions.
-     * companyName and appName are used to set the "ET-Client-Name" header as specified
-     * here https://developer.entur.org/pages-intro-authentication.
-     * @param companyName The name of the company using the client. Must not be blank.
-     * @param appName The name of the application using the client. Must not be blank
+     * @param enturClientName The ET-Client-Name of the client. Must not be blank. https://developer.entur.org/pages-intro-authentication.
      * @param configure Optional lambda to further configure the [HttpClient].
      */
     fun createVehicleSubscriptionClient(
-        companyName: String,
-        appName: String,
+        enturClientName: String,
         logLevel: HttpLogLevel = HttpLogLevel.INFO,
         configure: HttpClientConfig<*>.() -> Unit = {},
     ): HttpClient {
-        return create(companyName, appName, logLevel) {
+        return create(enturClientName, logLevel) {
             install(WebSockets)
             configure()
         }

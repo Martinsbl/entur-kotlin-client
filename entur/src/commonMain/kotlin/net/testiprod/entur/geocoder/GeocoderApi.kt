@@ -13,10 +13,6 @@ import net.testiprod.entur.http.transformResult
  * Geocoder API doc: https://developer.entur.org/pages-geocoder-api
  */
 class GeocoderApi(private val httpClient: HttpClient) {
-    constructor(
-        companyName: String,
-        appName: String,
-    ) : this(EnturHttpClientFactory.create(companyName, appName))
 
     suspend fun fetchStopPlaces(
         text: String,
@@ -33,5 +29,20 @@ class GeocoderApi(private val httpClient: HttpClient) {
         }
     }.transformResult {
         it.features
+    }
+
+    companion object {
+        operator fun invoke(block: GeocoderApiConfig.() -> Unit): GeocoderApi {
+            val config = GeocoderApiConfig().apply(block)
+            require(config.enturClientName.isNotBlank()) {
+                "User agent must be provided for VehicleApi"
+            }
+            return GeocoderApi(
+                EnturHttpClientFactory.create(
+                    enturClientName = config.enturClientName,
+                    logLevel = config.logLevel,
+                ),
+            )
+        }
     }
 }

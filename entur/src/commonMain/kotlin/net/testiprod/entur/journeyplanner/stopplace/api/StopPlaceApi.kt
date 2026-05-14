@@ -5,7 +5,6 @@ import com.apollographql.apollo.api.Optional
 import net.testiprod.entur.apollographql.journeyplanner.QuayQuery
 import net.testiprod.entur.apollographql.journeyplanner.StopPlaceDetailsQuery
 import net.testiprod.entur.apollographql.journeyplanner.StopPlaceQuery
-import net.testiprod.entur.common.JOURNEY_PLANNER_BASE_URL
 import net.testiprod.entur.common.exceptions.EnturResponseException
 import net.testiprod.entur.http.EnturApolloClientFactory
 import net.testiprod.entur.http.EnturResult
@@ -16,13 +15,6 @@ import net.testiprod.entur.journeyplanner.stopplace.models.StopPlaceQuay
 import net.testiprod.entur.journeyplanner.stopplace.toDomain
 
 class StopPlaceApi(private val apolloClient: ApolloClient) : IStopPlaceApi {
-    constructor(
-        companyName: String,
-        appName: String,
-        serverUrl: String = JOURNEY_PLANNER_BASE_URL,
-    ) : this(
-        EnturApolloClientFactory.create(companyName, appName, serverUrl),
-    )
 
     override suspend fun fetchStopPlaceQuay(
         stopPlaceId: String,
@@ -36,6 +28,8 @@ class StopPlaceApi(private val apolloClient: ApolloClient) : IStopPlaceApi {
             Optional.presentIfNotNull(whiteListedLines),
         )
         val response = apolloClient.query(query).execute()
+
+        response.exception?.let { throw it }
 
         response.errors?.let {
             throw EnturResponseException(
@@ -69,6 +63,8 @@ class StopPlaceApi(private val apolloClient: ApolloClient) : IStopPlaceApi {
         )
         val response = apolloClient.query(query).execute()
 
+        response.exception?.let { throw it }
+
         response.errors?.let {
             throw EnturResponseException(
                 "Error fetching data for quay '$quayId'. Errors=${it.joinToString()}",
@@ -92,6 +88,8 @@ class StopPlaceApi(private val apolloClient: ApolloClient) : IStopPlaceApi {
             StopPlaceDetailsQuery(stopPlaceId),
         ).execute()
 
+        response.exception?.let { throw it }
+
         response.errors?.let {
             throw EnturResponseException(
                 "Error fetching details for stop $stopPlaceId. Errors=${it.joinToString()}",
@@ -103,5 +101,21 @@ class StopPlaceApi(private val apolloClient: ApolloClient) : IStopPlaceApi {
             return stopPlace
         }
         throw EnturResponseException("Got neither data, nor errors from Entur.", null)
+    }
+
+    companion object {
+        operator fun invoke(block: StopPlaceApiConfig.() -> Unit): StopPlaceApi {
+            val config = StopPlaceApiConfig().apply(block)
+            require(config.enturClientName.isNotBlank()) {
+                "User agent must be provided for VehicleApi"
+            }
+            return StopPlaceApi(
+                EnturApolloClientFactory.create(
+                    enturClientName = config.enturClientName,
+                    baseUrl = config.baseUrl,
+                    logLevel = config.logLevel,
+                ),
+            )
+        }
     }
 }

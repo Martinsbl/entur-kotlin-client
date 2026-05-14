@@ -10,35 +10,16 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.retryWhen
 import net.testiprod.entur.apollographql.vehiclepositions.VehiclesQuery
 import net.testiprod.entur.apollographql.vehiclepositions.VehiclesSubscription
-import net.testiprod.entur.common.VEHICLES_BASE_URL
-import net.testiprod.entur.common.VEHICLE_SUBSCRIPTION_BASE_URL
 import net.testiprod.entur.common.exceptions.EnturResponseException
 import net.testiprod.entur.http.EnturApolloClientFactory
 import net.testiprod.entur.http.EnturResult
 import net.testiprod.entur.logging.EnturLog
-import net.testiprod.entur.logging.HttpLogLevel
 import net.testiprod.entur.vehicle.models.Vehicle
 import net.testiprod.entur.vehicle.toDomain
 
 class VehicleApi(private val vehicleClient: ApolloClient) : AutoCloseable {
 
     private val logger = EnturLog.logger<VehicleApi>()
-
-    constructor(
-        companyName: String,
-        appName: String,
-        logLevel: HttpLogLevel = HttpLogLevel.ALL,
-        baseUrl: String = VEHICLES_BASE_URL,
-        baseSubscriptionUrl: String = VEHICLE_SUBSCRIPTION_BASE_URL,
-    ) : this(
-        EnturApolloClientFactory.createVehicleClient(
-            companyName,
-            appName,
-            baseUrl,
-            baseSubscriptionUrl,
-            logLevel,
-        ),
-    )
 
     suspend fun fetchVehicles(serviceJourneyId: String): EnturResult<List<Vehicle>> = try {
         val response = vehicleClient.query(VehiclesQuery(serviceJourneyId)).execute()
@@ -90,5 +71,22 @@ class VehicleApi(private val vehicleClient: ApolloClient) : AutoCloseable {
 
     override fun close() {
         vehicleClient.close()
+    }
+
+    companion object {
+        operator fun invoke(block: VehicleApiConfig.() -> Unit): VehicleApi {
+            val config = VehicleApiConfig().apply(block)
+            require(config.enturClientName.isNotBlank()) {
+                "User agent must be provided for VehicleApi"
+            }
+            return VehicleApi(
+                EnturApolloClientFactory.createVehicleClient(
+                    enturClientName = config.enturClientName,
+                    baseUrl = config.baseUrl,
+                    baseSubscriptionUrl = config.baseUrlSubscription,
+                    logLevel = config.logLevel,
+                ),
+            )
+        }
     }
 }

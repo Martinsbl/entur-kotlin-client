@@ -19,42 +19,38 @@ object EnturApolloClientFactory {
     private val logger = EnturLog.logger<EnturApolloClientFactory>()
 
     fun create(
-        companyName: String,
-        appName: String,
-        serverUrl: String = JOURNEY_PLANNER_BASE_URL,
+        enturClientName: String,
+        baseUrl: String = JOURNEY_PLANNER_BASE_URL,
         logLevel: HttpLogLevel = HttpLogLevel.INFO,
     ): ApolloClient {
-        require(companyName.isNotBlank()) { "'companyName' cannot be blank" }
-        require(appName.isNotBlank()) { "'appName' cannot be blank" }
+        require(enturClientName.isNotBlank()) { "'enturClientName' cannot be blank" }
 
-        val httpClient = EnturHttpClientFactory.create(companyName, appName, logLevel)
+        val httpClient = EnturHttpClientFactory.create(enturClientName, logLevel)
 
         return ApolloClient.Builder()
-            .serverUrl(serverUrl)
+            .serverUrl(baseUrl)
             .ktorClient(httpClient)
             .build()
     }
 
     fun create(
         httpClient: HttpClient,
-        serverUrl: String = JOURNEY_PLANNER_BASE_URL,
+        baseUrl: String = JOURNEY_PLANNER_BASE_URL,
     ): ApolloClient {
         return ApolloClient.Builder()
-            .serverUrl(serverUrl)
+            .serverUrl(baseUrl)
             .ktorClient(httpClient)
             .build()
     }
 
     fun createVehicleClient(
-        companyName: String,
-        appName: String,
+        enturClientName: String,
         baseUrl: String = VEHICLES_BASE_URL,
         baseSubscriptionUrl: String = VEHICLE_SUBSCRIPTION_BASE_URL,
         logLevel: HttpLogLevel = HttpLogLevel.INFO,
     ): ApolloClient {
-        require(companyName.isNotBlank()) { "'companyName' cannot be blank" }
-        require(appName.isNotBlank()) { "'appName' cannot be blank" }
-        val httpClient = EnturHttpClientFactory.createVehicleSubscriptionClient(companyName, appName, logLevel)
+        require(enturClientName.isNotBlank()) { "'enturClientName' cannot be blank" }
+        val httpClient = EnturHttpClientFactory.createVehicleSubscriptionClient(enturClientName, logLevel)
         return createVehicleClient(httpClient, baseUrl, baseSubscriptionUrl)
     }
 
